@@ -1,0 +1,20 @@
+.play-page, .question {
+    display: none;
+    visibility: hidden;
+}
+
+    .play-page.show, .question.show {
+        display: initial;
+        visibility: visible;
+    }
+
+
+.category-button.active {
+    background: red;
+}
+
+.progress{
+    transition:1s ease-in-out;
+    height:10px;
+    background:red;
+}

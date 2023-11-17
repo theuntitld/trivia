@@ -1,0 +1,17 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.GameFinished ? "show" : "")">
+        <h3>Game Finished</h3>
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+}

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.NamePicker ? "show" : "")">
+        <h3>Name Picker</h3>
+
+        <input @bind-value="Player.Name" placeholder="Write Your Name" />
+
+        <button class="btn btn-primary" @onclick="Save">Save</button>
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+
+    private void Save()
+    {
+        Player.Page = State.Pages.CategoryPicker;
+
+        this.GameState.StateChanged();
+
+        StateHasChanged();
+    }
+}

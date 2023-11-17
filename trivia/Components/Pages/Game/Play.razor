@@ -1,0 +1,65 @@
+﻿@page "/play"
+
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject State.Game gameState
+@inject ProtectedLocalStorage localStorage
+
+<NamePicker GameState="gameState" Player="Player" />
+
+<CategoryPicker GameState="gameState" Player="Player" />
+
+<Wait GameState="gameState" Player="Player" />
+
+<AnswerQuestions GameState="gameState" Player="Player" />
+
+<ScoreBoard GameState="gameState" Player="Player" />
+
+
+@code {
+    public State.Player? Player { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.gameState.StateChange += GameState_StateChange;
+    }
+
+    private void GameState_StateChange(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield();
+            StateHasChanged();
+        });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string code = "";
+
+            var localStorageCode = await this.localStorage.GetAsync<string>("code");
+
+            if (localStorageCode.Value is null || string.IsNullOrWhiteSpace(localStorageCode.Value))
+            {
+                code = Guid.NewGuid().ToString();
+
+                await this.localStorage.SetAsync("code", code);
+            }
+            else
+            {
+                code = localStorageCode.Value;
+            }
+
+            Player = gameState.Players.FirstOrDefault(x => x.Code == code );
+
+            if (Player is null)
+            {
+                Player = new State.Player() { Code = code };
+            }
+
+            this.gameState.AddPlayer(this.Player);
+        }
+    }
+}

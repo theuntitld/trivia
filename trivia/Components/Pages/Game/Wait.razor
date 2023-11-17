@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.Play && !this.GameState.GameStarted && !this.GameState.GameFinished ? "show" : "")">
+        <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button>
+        <h3>Wait</h3>
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+}

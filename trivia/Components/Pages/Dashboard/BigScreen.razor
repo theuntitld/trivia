@@ -1,0 +1,24 @@
+﻿@page "/dashboard"
+
+@inject State.Game gameState
+
+<Wait GameState="gameState"/>
+
+<ScoreBoard GameState="gameState" />
+
+@code {
+    protected override void OnInitialized()
+    {
+        this.gameState.StateChange += GameState_StateChange;
+    }
+
+    private void GameState_StateChange(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield();
+
+            StateHasChanged();
+        });
+    }
+}

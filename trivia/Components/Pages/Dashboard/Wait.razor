@@ -1,0 +1,26 @@
+﻿
+<section class="play-page @(!GameState.GameStarted && !GameState.GameFinished ? "show" : "")">
+    <h3>Dashboard (Wait)</h3>
+
+    <div>
+        <div>
+            @(this.GameState.Players.Where(x=> !string.IsNullOrWhiteSpace(x.Name)).Count()) Players Joined
+        </div>
+
+        @foreach (var category in this.GameState.Categories)
+        {
+            <button>
+                @category
+                <sup>@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</sup>
+            </button>
+        }
+    </div>
+
+    <br/>
+    <button class="btn btn-primary" @onclick="async ()=>{ await this.GameState.StartGame(); }">Start Game</button>
+</section>
+
+@code{
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+}

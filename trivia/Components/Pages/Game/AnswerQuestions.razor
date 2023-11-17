@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.GameStarted ? "show" : "")">
+        <h3>Answer Questions</h3>
+
+        <h4>Stage: @(this.GameState.Stage + 1) / @this.GameState.Questions.Count</h4>
+
+        <h4>Time Left: @((this.GameState.Stage * this.GameState.SecondsPerStage) + this.GameState.SecondsPerStage - this.GameState.SecondsSinceGameStart)</h4>
+
+        <div style="width:@(
+            GameState.SecondsSinceGameStart == 0 ? 100 :
+            (((double) ((this.GameState.Stage * this.GameState.SecondsPerStage) + this.GameState.SecondsPerStage - this.GameState.SecondsSinceGameStart) / (double) this.GameState.SecondsPerStage)) * 100)%"
+             class="progress">
+        </div>
+
+        <div>
+            @for (var i = 0; i < this.GameState.Questions.Count; i++)
+            {
+                var question = this.GameState.Questions[i];
+
+                <div class="question @(this.GameState.Stage == i ? "show" : "")">
+                    <h4>@question.Question</h4>
+                    <div class="answers">
+                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.A)">@question.A</button>
+                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.B)">@question.B</button>
+                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.C)">@question.C</button>
+                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.D)">@question.D</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+}

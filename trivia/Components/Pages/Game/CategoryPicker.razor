@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.CategoryPicker ? "show" : "")">
+        <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Back</button>
+
+        <h3>Category Picker</h3>
+
+        @foreach (var category in this.GameState.Categories)
+        {
+            <button class="category-button @(this.Player.Categories.Contains(category) ? "active" : "")" @onclick="() => this.GameState.ToggleCategory(this.Player, category)">
+                @category
+                <sup>@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</sup>
+            </button>
+        }
+
+        <div>
+            <br/>
+            <button class="btn btn-primary" disabled="@(Player.Categories.Count != this.GameState.NumberOfCategoriesPerUser)" @onclick="Play">Play</button>
+        </div>
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+
+    void Play()
+    {
+        if (this.Player.Categories.Count() != this.GameState.NumberOfCategoriesPerUser)
+        {
+            return;
+        }
+
+        Player.Page = State.Pages.Play; 
+        
+        this.GameState.StateChanged();
+    }
+}
