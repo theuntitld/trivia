@@ -5,6 +5,8 @@
     <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.GameStarted ? "show" : "")">
         <h3>Answer Questions</h3>
 
+        <h4>Score: @Player.Score</h4>
+
         <h4>Stage: @(this.GameState.Stage + 1) / @this.GameState.Questions.Count</h4>
 
         <h4>Time Left: @((this.GameState.Stage * this.GameState.SecondsPerStage) + this.GameState.SecondsPerStage - this.GameState.SecondsSinceGameStart)</h4>
@@ -23,10 +25,29 @@
                 <div class="question @(this.GameState.Stage == i ? "show" : "")">
                     <h4>@question.Question</h4>
                     <div class="answers">
-                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.A)">@question.A</button>
-                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.B)">@question.B</button>
-                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.C)">@question.C</button>
-                        <button class="btn btn-primary" @onclick="() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, question.D)">@question.D</button>
+                        <button 
+                            class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "A" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "A" ? "btn-success" : "btn-default")" 
+                            disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "A"))">
+                            @question.A
+                        </button>
+                        
+                        <button 
+                            class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "B" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "B" ? "btn-success" : "btn-default")" 
+                            disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "B"))">
+                            @question.B
+                        </button>
+                        
+                        <button 
+                            class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "C" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "C" ? "btn-success" : "btn-default")" 
+                            disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "C"))">
+                            @question.C
+                        </button>
+                        
+                        <button 
+                            class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "D" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "D" ? "btn-success" : "btn-default")" 
+                            disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "D"))">
+                            @question.D
+                        </button>
                     </div>
                 </div>
             }

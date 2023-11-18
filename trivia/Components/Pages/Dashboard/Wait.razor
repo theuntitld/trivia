@@ -17,7 +17,7 @@
     </div>
 
     <br/>
-    <button class="btn btn-primary" @onclick="async ()=>{ await this.GameState.StartGame(); }">Start Game</button>
+    <button class="btn btn-primary" disabled="@this.GameState.TimerIsOn" @onclick="async ()=>{ await this.GameState.StartGame(); }">Start Game</button>
 </section>
 
 @code{

@@ -2,6 +2,7 @@
 
 public class Game
 {
+    public bool TimerIsOn { get; set; }
     public bool GameStarted { get; set; }
     public bool GameFinished { get; set; }
     public int SecondsSinceGameStart { get; set; }
@@ -11,7 +12,11 @@ public class Game
     public void StateChanged() => StateChange?.Invoke(this, EventArgs.Empty);
 
     public int NumberOfCategoriesPerUser { get; set; } = 3;
-    public int SecondsPerStage { get; set; } = 10;
+    public int SecondsPerStage { get; set; } = 12;
+
+    public int SecondsToShowCorrectAnswer { get; set; } = 4;
+
+    public bool CorrectAnswerIsShowing { get; set; }
 
     public List<QuestionCSVModel> Questions { get; set; }
 
@@ -78,14 +83,16 @@ public class Game
 
     public void AnswerQuestion(Player player, int stage, string answer)
     {
-        if (this.Stage != stage)
+        if (this.Stage != stage || this.CorrectAnswerIsShowing)
             return;
 
-
+        player.Answers[stage] = answer;
     }
 
     private async Task Timer()
     {
+        this.TimerIsOn = true;
+
         while (this.GameStarted)
         {
             await Task.Delay(1000);
@@ -93,7 +100,32 @@ public class Game
             this.SecondsSinceGameStart++;
 
             if (SecondsPerStage * (this.Stage + 1) == this.SecondsSinceGameStart)
+            {
+                this.CorrectAnswerIsShowing = true;
+
+                foreach (var player in Players)
+                {
+                    var playerScore = 0;
+
+                    for (int i = 0; i <= this.Stage; i++)
+                    {
+                        if (player.Answers.ContainsKey(i) && player.Answers[i] == this.Questions.ElementAt(i).Answer)
+                        {
+                            playerScore++;
+                        }
+                    }
+
+                    player.Score = playerScore;
+                }
+
+                this.StateChanged();
+
+                await Task.Delay(1000 * this.SecondsToShowCorrectAnswer);
+
+                this.CorrectAnswerIsShowing = false;
+
                 this.Stage++;
+            }
 
             if ((this.Stage + 1) > this.Questions.Count)
             {
@@ -103,6 +135,10 @@ public class Game
 
             this.StateChanged();
         }
+
+        this.TimerIsOn = false;
+
+        this.StateChanged();
     }
 
     public async Task StartGame()
@@ -110,6 +146,13 @@ public class Game
         this.GameStarted = true;
         this.Stage = 0;
         this.SecondsSinceGameStart = 0;
+
+        foreach (var player in Players)
+        {
+            player.Answers = new Dictionary<int, string>();
+
+            player.Score = 0;
+        }
 
         this.StateChanged();
 
