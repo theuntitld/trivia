@@ -23,6 +23,8 @@
     {
         Player.Page = State.Pages.CategoryPicker;
 
+        this.GameState.AssignTeam(Player);
+
         this.GameState.StateChanged();
 
         StateHasChanged();

@@ -27,6 +27,19 @@ public class Game
         this.Questions = engine.ReadFile($"State/questions.csv").ToList();
     }
 
+    private string? LastAssignedTeam { get; set; }
+
+    public List<string> Teams = new List<string>
+    {
+        "GREEN",
+        "RED",
+        "BLUE",
+        "YELLOW",
+        "PINK",
+        "PURPULE",
+        "ORANGE",
+    };
+
     public List<string> Categories { get; set; } = new List<string>
     {
         "SPORT",
@@ -54,6 +67,25 @@ public class Game
         }
 
         StateChanged();
+    }
+
+    public void AssignTeam(Player player)
+    {
+        if (player.Team is not null)
+            return;
+
+        var teamIndexToAssign = LastAssignedTeam is null ? 0 : Teams.IndexOf(LastAssignedTeam) + 1;
+
+        if (teamIndexToAssign == Teams.Count())
+            teamIndexToAssign = 0;
+
+        var teamToAssign = Teams.ElementAt(teamIndexToAssign);
+
+        player.Team = teamToAssign;
+
+        LastAssignedTeam = teamToAssign;
+
+        this.StateChanged();
     }
 
     public void RemovePlayer(string code)

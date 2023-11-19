@@ -6,6 +6,8 @@
         <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button>
         <h3>Wait</h3>
 
+        <h4>Team: @Player.Team</h4>
+
         <button class="btn btn-info" @onclick="() => {Player.PreviousPage = State.Pages.Play; Player.Page = State.Pages.Rules; this.GameState.StateChanged();}">Show Rules</button>
     </section>
 }

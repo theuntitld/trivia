@@ -5,6 +5,8 @@
     <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.GameStarted ? "show" : "")">
         <h3>Answer Questions</h3>
 
+        <h4>Team: @Player.Team</h4>
+
         <h4>Score: @Player.Score</h4>
 
         <h4>Stage: @(this.GameState.Stage + 1) / @this.GameState.Questions.Count</h4>
