@@ -88,11 +88,9 @@ public class Game
         this.StateChanged();
     }
 
-    public void RemovePlayer(string code)
+    public void RemovePlayer(Player? player)
     {
-        var player = this.Players.FirstOrDefault(x=> x.Code == code);
-
-        if (player is not null)
+        if (player is not null && this.Players.Contains(player))
             this.Players.Remove(player);
 
         this.StateChanged();
