@@ -1,0 +1,146 @@
+﻿@page "/category"
+
+<h3>Question Ordering By Category</h3>
+
+<button @onclick="() => this.ChngeState(0)">State One</button>
+<button @onclick="() => this.ChngeState(1)">State One</button>
+
+@if(activeState > -1)
+{
+    <div>
+        @{
+            var i = 0;
+        }
+
+        @foreach (var player in this.states[activeState])
+        {
+            <div>Player <strong>@(i + 1)</strong>: @string.Join(", ", player.Categories)</div>
+
+            i++; 
+        }
+    </div>
+}
+
+<br/><br/>
+
+<div>
+    @foreach (var category in CategoryCounts.OrderByDescending(x=> x.Value))
+    {
+        <div><strong>@(category.Key)</strong>: @category.Value, @(string.Format("{0:P2}", (double) category.Value / (double) (this.states[activeState].Count * 3)))</div>
+    }
+</div>
+
+<br/><br/>
+
+@foreach (var q in FilteredOrderedQuestions)
+{
+    <div>@q.Category</div>
+}
+
+@code {
+    List<State.QuestionCSVModel> questions = new()
+    {
+        new State.QuestionCSVModel { Category = "SPORT" },
+        new State.QuestionCSVModel { Category = "SPORT" },
+        new State.QuestionCSVModel { Category = "SPORT" },
+
+        new State.QuestionCSVModel { Category = "GAMING" },
+        new State.QuestionCSVModel { Category = "GAMING" },
+        new State.QuestionCSVModel { Category = "GAMING" },
+
+        new State.QuestionCSVModel { Category = "DESIGN" },
+        new State.QuestionCSVModel { Category = "DESIGN" },
+        new State.QuestionCSVModel { Category = "DESIGN" },
+
+        new State.QuestionCSVModel { Category = "TECH" },
+        new State.QuestionCSVModel { Category = "TECH" },
+        new State.QuestionCSVModel { Category = "TECH" },
+
+        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
+        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
+        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
+
+        new State.QuestionCSVModel { Category = "HISTORY" },
+        new State.QuestionCSVModel { Category = "HISTORY" },
+        new State.QuestionCSVModel { Category = "HISTORY" },
+
+        new State.QuestionCSVModel { Category = "ART" },
+        new State.QuestionCSVModel { Category = "ART" },
+        new State.QuestionCSVModel { Category = "ART" },
+
+        new State.QuestionCSVModel { Category = "MOVIES" },
+        new State.QuestionCSVModel { Category = "MOVIES" },
+        new State.QuestionCSVModel { Category = "MOVIES" },
+
+        new State.QuestionCSVModel { Category = "CARS" },
+        new State.QuestionCSVModel { Category = "CARS" },
+        new State.QuestionCSVModel { Category = "CARS" },
+
+        new State.QuestionCSVModel { Category = "MUSIC" },
+        new State.QuestionCSVModel { Category = "MUSIC" },
+        new State.QuestionCSVModel { Category = "MUSIC" },
+
+        new State.QuestionCSVModel { Category = "MYTH" },
+        new State.QuestionCSVModel { Category = "MYTH" },
+        new State.QuestionCSVModel { Category = "MYTH" },
+
+        new State.QuestionCSVModel { Category = "TRAVEL" },
+        new State.QuestionCSVModel { Category = "TRAVEL" },
+        new State.QuestionCSVModel { Category = "TRAVEL" },
+
+        new State.QuestionCSVModel { Category = "LANGUAGES" },
+        new State.QuestionCSVModel { Category = "LANGUAGES" },
+        new State.QuestionCSVModel { Category = "LANGUAGES" },
+
+        new State.QuestionCSVModel { Category = "FOOD" },
+        new State.QuestionCSVModel { Category = "FOOD" },
+        new State.QuestionCSVModel { Category = "FOOD" },
+
+        new State.QuestionCSVModel { Category = "SCIENCE" },
+        new State.QuestionCSVModel { Category = "SCIENCE" },
+        new State.QuestionCSVModel { Category = "SCIENCE" },
+    };
+
+    Dictionary<int, List<State.Player>> states = new()
+    {
+        [0] = new List<State.Player>
+        {
+            new State.Player { Categories = new List<string> { "SPORT", "GAMING", "DESIGN" } },
+            new State.Player { Categories = new List<string> { "SPORT", "GAMING", "DESIGN" } },
+            new State.Player { Categories = new List<string> { "SPORT", "GAMING", "DESIGN" } },
+
+            new State.Player { Categories = new List<string> { "GAMING", "DESIGN", "TECH" } },
+            new State.Player { Categories = new List<string> { "GAMING", "DESIGN", "TECH" } },
+            new State.Player { Categories = new List<string> { "GAMING", "DESIGN", "TECH" } },
+
+            new State.Player { Categories = new List<string> { "DESIGN", "TECH", "GEOGRAPHY" } },
+            new State.Player { Categories = new List<string> { "DESIGN", "TECH", "GEOGRAPHY" } },
+        }
+    };
+
+    int activeState = -1;
+
+    Dictionary<string, int> CategoryCounts = new Dictionary<string, int>();
+
+    List<State.QuestionCSVModel> FilteredOrderedQuestions = new();
+
+    private void ChngeState(int stateIndex)
+    {
+        this.activeState = stateIndex;
+
+        this.CategoryCounts = this.states[activeState]
+        .SelectMany(x => x.Categories)
+        .GroupBy(x => x)
+        .ToDictionary(x => x.Key.ToUpper(), x => x.Count());
+
+        Random rng = new Random();
+
+        FilteredOrderedQuestions = this.questions
+        .Where(x => this.CategoryCounts.Keys.Contains(x.Category.ToUpper()))
+        .OrderByDescending(x => this.CategoryCounts[x.Category.ToUpper()])
+        .Take(3 * 3)
+        .ToList()
+        .OrderBy(x => rng.Next())
+        .ToList();
+    }
+}

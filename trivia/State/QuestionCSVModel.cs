@@ -5,6 +5,9 @@
 public class QuestionCSVModel
 {
     [FileHelpers.FieldQuoted(FileHelpers.QuoteMode.OptionalForBoth)]
+    public string Category { get; set; } = default!;
+
+    [FileHelpers.FieldQuoted(FileHelpers.QuoteMode.OptionalForBoth)]
     public string Question { get; set; } = default!;
 
     [FileHelpers.FieldQuoted(FileHelpers.QuoteMode.OptionalForBoth)]
