@@ -2,6 +2,8 @@
 
 @inject State.Game gameState
 
+@implements IDisposable
+
 <Wait GameState="gameState"/>
 
 <ScoreBoard GameState="gameState" />
@@ -20,5 +22,10 @@
 
             StateHasChanged();
         });
+    }
+
+    public void Dispose()
+    {
+        this.gameState.StateChange -= GameState_StateChange;
     }
 }

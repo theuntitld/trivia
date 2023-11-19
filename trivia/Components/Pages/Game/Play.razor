@@ -5,6 +5,8 @@
 @inject State.Game gameState
 @inject ProtectedLocalStorage localStorage
 
+@implements IDisposable
+
 <Rules GameState="gameState" Player="Player" />
 
 <NamePicker GameState="gameState" Player="Player" />
@@ -63,5 +65,12 @@
 
             this.gameState.AddPlayer(this.Player);
         }
+    }
+
+    public void Dispose()
+    {
+        this.gameState.StateChange -= GameState_StateChange;
+
+        this.gameState.RemovePlayer(this.Player);
     }
 }
