@@ -1,9 +1,11 @@
-﻿@page "/play"
+﻿@page "/"
 
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @inject State.Game gameState
 @inject ProtectedLocalStorage localStorage
+
+<Rules GameState="gameState" Player="Player" />
 
 <NamePicker GameState="gameState" Player="Player" />
 

@@ -6,6 +6,7 @@ public class Player
     public string Name { get; set; } = default!;
     public int Score { get; set; }
     public List<string> Categories { get; set; } = new List<string>(); // { "SPORT", "GAMING", "DESIGN" };
-    public Pages Page { get; set; } = Pages.NamePicker;
+    public Pages Page { get; set; } = Pages.Rules;
+    public Pages? PreviousPage { get; set; }
     public Dictionary<int, string> Answers { get; set; } = new Dictionary<int, string>();
 }

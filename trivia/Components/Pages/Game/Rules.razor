@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@if (Player is not null)
+{
+    <section class="play-page @(Player.Page == State.Pages.Rules ? "show" : "")">
+        @if (this.Player.PreviousPage is not null)
+        {
+            <button class="btn btn-warning" @onclick="() => {Player.Page = this.Player.PreviousPage.Value; this.GameState.StateChanged();}">Back</button>
+        }
+        
+        <ul>
+            <li>Rule 1</li>
+            <li>Rule 2</li>
+            <li>Rule 3</li>
+            <li>Rule 4</li>
+        </ul>
+
+        @if (this.Player.PreviousPage is null)
+        {
+            <button class="btn btn-success" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Ok</button>
+        }
+    </section>
+}
+
+@code {
+
+    [Parameter]
+    public State.Player Player { get; set; } = default!;
+
+    [Parameter]
+    public State.Game GameState { get; set; } = default!;
+}

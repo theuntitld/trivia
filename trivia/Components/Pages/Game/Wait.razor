@@ -5,6 +5,8 @@
     <section class="play-page @(Player.Page == State.Pages.Play && !this.GameState.GameStarted && !this.GameState.GameFinished ? "show" : "")">
         <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button>
         <h3>Wait</h3>
+
+        <button class="btn btn-info" @onclick="() => {Player.PreviousPage = State.Pages.Play; Player.Page = State.Pages.Rules; this.GameState.StateChanged();}">Show Rules</button>
     </section>
 }
 

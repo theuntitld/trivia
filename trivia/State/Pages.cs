@@ -2,6 +2,7 @@
 
 public enum Pages
 {
+    Rules,
     NamePicker,
     CategoryPicker,
     Play,
