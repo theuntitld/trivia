@@ -19,7 +19,6 @@
 
 <ScoreBoard GameState="gameState" Player="Player" />
 
-
 @code {
     public State.Player? Player { get; set; }
 
@@ -28,7 +27,7 @@
         this.gameState.StateChange += GameState_StateChange;
     }
 
-    private void GameState_StateChange(object sender, EventArgs e)
+    private void GameState_StateChange(object? sender, EventArgs e)
     {
         InvokeAsync(async () =>
         {
@@ -60,7 +59,7 @@
 
             if (Player is null)
             {
-                Player = new State.Player() { Code = code };
+                Player = new State.Player() { Code = code, Page = State.Pages.NamePicker };
             }
 
             this.gameState.AddPlayer(this.Player);

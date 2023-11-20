@@ -1,0 +1,56 @@
+.category-stage {
+    background-color: #000;
+    padding: 0 45px;
+}
+
+h3 {
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.category-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 13px;
+}
+
+.button-wrap {
+    position: relative;
+}
+
+    .button-wrap button {
+        width: 100%;
+    }
+
+.counter {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #000;
+    font-size: 12px;
+}
+
+    .counter.active {
+        color: var(--primary-color);
+    }
+
+.fancy-button {
+    border: none;
+    border-block: 1px solid var(--primary-color);
+    background-color: transparent;
+    color: var(--primary-color);
+    padding: 15px 0;
+    text-transform: uppercase;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition-property: color, border-color;
+    transition-duration: var(--fade-timing);
+    transition-timing-function: ease;
+}
+
+    .fancy-button:disabled {
+        color: #808285;
+        border-color: #808285;
+    }

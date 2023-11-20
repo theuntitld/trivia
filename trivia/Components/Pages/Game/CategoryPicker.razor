@@ -1,23 +1,37 @@
 ﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using trivia.Icons
 
 @if (Player is not null)
 {
-    <section class="play-page @(Player.Page == State.Pages.CategoryPicker ? "show" : "")">
+    <section class="play-page category-stage @(Player.Page == State.Pages.CategoryPicker ? "show" : "")">
         <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Back</button>
 
-        <h3>Category Picker</h3>
+        <h3>
+            Please Select<br />
+            Three Categories
+        </h3>
 
-        @foreach (var category in this.GameState.Categories)
-        {
-            <button class="category-button @(this.Player.Categories.Contains(category) ? "active" : "")" @onclick="() => this.GameState.ToggleCategory(this.Player, category)">
-                @category
-                <sup>@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</sup>
-            </button>
-        }
+        <div class="category-list">
+            @foreach (var category in this.GameState.Categories)
+            {
+                var isActiveClass = this.Player.Categories.Contains(category) ? "active" : "";
+                <div class="button-wrap">
+                    <button class="untitld-button @isActiveClass" @onclick="() => this.GameState.ToggleCategory(this.Player, category)">
+                        @category
+                    </button>
+
+                    <span class="counter @isActiveClass">@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</span>
+                </div>
+            }
+        </div>
 
         <div>
             <br/>
-            <button class="btn btn-primary" disabled="@(Player.Categories.Count != this.GameState.NumberOfCategoriesPerUser)" @onclick="Play">Play</button>
+            <button class="fancy-button" disabled="@(Player.Categories.Count != this.GameState.NumberOfCategoriesPerUser)" @onclick="Play">
+                <Arrow/>
+                Confirm Selection
+                <Arrow Flipped/>
+            </button>
         </div>
     </section>
 }

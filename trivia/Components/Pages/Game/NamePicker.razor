@@ -2,12 +2,20 @@
 
 @if (Player is not null)
 {
-    <section class="play-page @(Player.Page == State.Pages.NamePicker ? "show" : "")">
-        <h3>Name Picker</h3>
+    <section class="play-page name-stage @(Player.Page == State.Pages.NamePicker ? "show" : "")">
 
-        <input @bind-value="Player.Name" placeholder="Write Your Name" />
+        <h1>
+            Welcome to<br />
+            untitld Trivia
+        </h1>
 
-        <button class="btn btn-primary" @onclick="Save">Save</button>
+        <div class="name-picker">
+            <label for="name-picker">Choose your display name</label>
+            <input id="name-picker" @oninput="NameChangeHandler" placeholder="e.g. Ahmed" />
+            <small class="hint @(this.Player.Name?.Length >= 3 ? "show" : "")">What a great name</small>
+        </div>
+
+        <button class="untitld-button" @onclick="Save" disabled="@(this.Player.Name == null || this.Player.Name.Length < 2)">Submit</button>
     </section>
 }
 
@@ -18,6 +26,11 @@
 
     [Parameter]
     public State.Game GameState { get; set; } = default!;
+
+    private void NameChangeHandler(ChangeEventArgs e)
+    {
+        this.Player.Name = e.Value?.ToString() ?? "";
+    }
 
     private void Save()
     {
