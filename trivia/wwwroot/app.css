@@ -59,3 +59,9 @@ html, body {
         color: var(--primary-color);
         border: 1px solid var(--primary-color);
     }
+
+.svg {
+    transition-property: stroke, fill;
+    transition-duration: var(--fade-timing);
+    transition-timing-function: ease;
+}

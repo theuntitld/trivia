@@ -1,0 +1,7 @@
+﻿svg {
+    stroke: #CDFE00;
+}
+
+:disabled svg {
+    stroke: #808285;
+}
