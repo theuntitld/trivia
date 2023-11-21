@@ -9,7 +9,7 @@
         (1.0 - ((double) GameState.SecondsSinceGameStart / (double) (GameState.Questions.Count * GameState.SecondsPerStage))) * 100)%" class="progress">
     </div>
 
-    @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name)))
+    @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online))
     {
         <div>
             <span>@player.Name</span>

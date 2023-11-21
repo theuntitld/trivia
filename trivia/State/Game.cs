@@ -69,6 +69,13 @@ public class Game
         StateChanged();
     }
 
+    public void SetOnlineStatus(Player player, bool online)
+    {
+        player.Online = online;
+
+        StateChanged();
+    }
+
     public void AssignTeam(Player player)
     {
         if (player.Team is not null)
