@@ -1,0 +1,79 @@
+﻿@page "/control-panel"
+
+@inject State.Game gameState
+@implements IDisposable
+
+<h3>Control Panel</h3>
+
+
+@if (this.gameState.RemainingSecondForStage == 0) //No active stage
+{
+    if (!this.gameState.QuestionIsShowing)
+    {
+        @if (this.gameState.Stage >= this.gameState.Questions.Count - 1)
+        {
+            <button @onclick="@(() => this.gameState.FinishTheGame())">
+                Finish The Game
+            </button>
+        }
+        else
+        {
+            <button @onclick="(() => this.gameState.RevealQuestion())">
+                Show Question @(this.gameState.Stage + 2)
+        </button>
+        }
+    }
+    else
+    {
+        <div>
+            <strong>Category:</strong> @this.gameState.Questions[this.gameState.Stage].Category
+        </div>
+
+        <div>
+            <strong>Question:</strong> @this.gameState.Questions[this.gameState.Stage].Question
+        </div>
+
+        <br />
+
+        <button @onclick="(async () => await this.gameState.StartStage())">
+            Start Stage @(this.gameState.Stage + 1)
+        </button>
+    }
+}
+else
+{
+    <div>
+        <strong>Category:</strong> @this.gameState.Questions[this.gameState.Stage].Category
+    </div>
+
+    <div>
+        <strong>Question:</strong> @this.gameState.Questions[this.gameState.Stage].Question
+    </div>
+
+    <br />
+
+    <div>Players Are Answering Question @(this.gameState.Stage + 1)</div>
+    <div>Time Left: @this.gameState.RemainingSecondForStage</div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        this.gameState.StateChange += GameState_StateChange;
+    }
+
+    private void GameState_StateChange(object sender, EventArgs e)
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Yield();
+
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        this.gameState.StateChange -= GameState_StateChange;
+    }
+}

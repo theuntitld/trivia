@@ -1,24 +1,21 @@
 ﻿
-<section class="play-page @(GameState.GameStarted || GameState.GameFinished ? "show" : "")">
+<section class="play-page @(GameState.Stage > -1 ? "show" : "")">
     <h3>Dashboard (Score Board)</h3>
 
    
-    Game Left: 
+    @* Game Left: 
     <div style="width:@(
         GameState.SecondsSinceGameStart == 0 ? 100 : 
         (1.0 - ((double) GameState.SecondsSinceGameStart / (double) (GameState.Questions.Count * GameState.SecondsPerStage))) * 100)%" class="progress">
-    </div>
+    </div> *@
 
-    @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name)))
+    @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online))
     {
         <div>
             <span>@player.Name</span>
             <strong>@player.Score</strong>
         </div>
     }
-
-    <br />
-    <button class="btn btn-danger" @onclick="()=>{ this.GameState.GameStarted = false; this.GameState.GameFinished = false; this.GameState.StateChanged(); }">Stop Game</button>
 </section>
 
 @code {

@@ -3,9 +3,7 @@
 
 @if (Player is not null)
 {
-    <section class="play-page @RulesOpenClass waiting-stage @(Player.Page == State.Pages.Play && !this.GameState.GameStarted && !this.GameState.GameFinished ? "show" : "")">
-        
-
+    <section class="play-page @RulesOpenClass waiting-stage @(Player.Page == State.Pages.Play && this.GameState.Stage == -1 ? "show" : "")">
         <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button>
         <div class="wait-message">
             <div class="loading-icon">

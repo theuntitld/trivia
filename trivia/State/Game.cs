@@ -2,11 +2,9 @@
 
 public class Game
 {
-    public bool TimerIsOn { get; set; }
-    public bool GameStarted { get; set; }
-    public bool GameFinished { get; set; }
-    public int SecondsSinceGameStart { get; set; }
-    public int Stage { get; set; }
+    public int Stage { get; set; } = -1;
+    public bool QuestionIsShowing { get; set; }
+    public bool CorrectAnswerIsShowing { get; set; }
     public List<Player> Players { get; set; } = new List<Player>();
     public EventHandler StateChange { get; set; } = default!;
     public void StateChanged() => StateChange?.Invoke(this, EventArgs.Empty);
@@ -14,9 +12,7 @@ public class Game
     public int NumberOfCategoriesPerUser { get; set; } = 3;
     public int SecondsPerStage { get; set; } = 12;
 
-    public int SecondsToShowCorrectAnswer { get; set; } = 4;
-
-    public bool CorrectAnswerIsShowing { get; set; }
+    public int RemainingSecondForStage { get; set; } 
 
     public List<QuestionCSVModel> Questions { get; set; }
 
@@ -69,6 +65,13 @@ public class Game
         StateChanged();
     }
 
+    public void SetOnlineStatus(Player player, bool online)
+    {
+        player.Online = online;
+
+        StateChanged();
+    }
+
     public void AssignTeam(Player player)
     {
         if (player.Team is not null)
@@ -113,23 +116,23 @@ public class Game
 
     public void AnswerQuestion(Player player, int stage, string answer)
     {
-        if (this.Stage != stage || this.CorrectAnswerIsShowing)
+        if (this.Stage != stage || this.RemainingSecondForStage <= 0)
             return;
 
         player.Answers[stage] = answer;
     }
 
-    private async Task Timer()
+    private async Task StartStageTimer()
     {
-        this.TimerIsOn = true;
-
-        while (this.GameStarted)
+        while (this.RemainingSecondForStage > 0)
         {
+            this.StateChanged();
+
             await Task.Delay(1000);
 
-            this.SecondsSinceGameStart++;
+            this.RemainingSecondForStage--;
 
-            if (SecondsPerStage * (this.Stage + 1) == this.SecondsSinceGameStart)
+            if (this.RemainingSecondForStage == 0)
             {
                 this.CorrectAnswerIsShowing = true;
 
@@ -147,45 +150,57 @@ public class Game
 
                     player.Score = playerScore;
                 }
-
-                this.StateChanged();
-
-                await Task.Delay(1000 * this.SecondsToShowCorrectAnswer);
-
-                this.CorrectAnswerIsShowing = false;
-
-                this.Stage++;
             }
-
-            if ((this.Stage + 1) > this.Questions.Count)
-            {
-                this.GameStarted = false;
-                this.GameFinished = true;
-            }
-
-            this.StateChanged();
         }
-
-        this.TimerIsOn = false;
 
         this.StateChanged();
     }
 
-    public async Task StartGame()
+    //public async Task StartGame()
+    //{
+    //    this.GameStarted = true;
+    //    this.Stage = 0;
+    //    this.SecondsSinceGameStart = 0;
+
+    //    foreach (var player in Players)
+    //    {
+    //        player.Answers = new Dictionary<int, string>();
+
+    //        player.Score = 0;
+    //    }
+
+    //    this.StateChanged();
+
+    //    await this.StartStageTimer();
+    //}
+
+    public void RevealQuestion()
     {
-        this.GameStarted = true;
-        this.Stage = 0;
-        this.SecondsSinceGameStart = 0;
+        this.QuestionIsShowing = true;
 
-        foreach (var player in Players)
-        {
-            player.Answers = new Dictionary<int, string>();
+        this.CorrectAnswerIsShowing = false;
 
-            player.Score = 0;
-        }
+        this.Stage++;
 
         this.StateChanged();
+    }
 
-        await this.Timer();
+    public async Task StartStage()
+    {
+        this.QuestionIsShowing = false;
+
+        this.CorrectAnswerIsShowing = false;
+
+        this.RemainingSecondForStage = this.SecondsPerStage;
+
+        await this.StartStageTimer();
+    }
+
+    public void FinishTheGame()
+    {
+        if (this.Stage == this.Questions.Count - 1)
+            this.Stage++;
+
+        this.StateChanged();
     }
 }

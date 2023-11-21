@@ -2,7 +2,7 @@
 
 @if (Player is not null)
 {
-    <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.GameFinished ? "show" : "")">
+    <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.Stage == this.GameState.Questions.Count ? "show" : "")">
         <h3>Game Finished</h3>
     </section>
 }
