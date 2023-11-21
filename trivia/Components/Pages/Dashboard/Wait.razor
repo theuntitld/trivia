@@ -1,5 +1,5 @@
 ﻿
-<section class="play-page @(!GameState.GameStarted && !GameState.GameFinished ? "show" : "")">
+<section class="play-page @(this.GameState.Stage == -1 ? "show" : "")">
     <h3>Dashboard (Wait)</h3>
 
     <div>
@@ -15,9 +15,6 @@
             </button>
         }
     </div>
-
-    <br/>
-    <button class="btn btn-primary" disabled="@this.GameState.TimerIsOn" @onclick="async ()=>{ await this.GameState.StartGame(); }">Start Game</button>
 </section>
 
 @code{
