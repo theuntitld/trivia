@@ -59,14 +59,13 @@
 
             if (Player is null)
             {
-                Player = new State.Player() { Code = code, Page = State.Pages.NamePicker, Online = true };
+                Player = new State.Player() { Code = code };
 
                 this.gameState.AddPlayer(this.Player);
             }
-            else
-            {
-                this.gameState.SetOnlineStatus(this.Player, true);  
-            }
+
+            
+            this.gameState.SetOnlineStatus(this.Player, true);
         }
     }
 
