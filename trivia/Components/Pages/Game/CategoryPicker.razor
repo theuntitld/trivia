@@ -14,9 +14,10 @@
         <div class="category-list">
             @foreach (var category in this.GameState.Categories)
             {
-                var isActiveClass = this.Player.Categories.Contains(category) ? "active" : "";
+                var isActive = this.Player.Categories.Contains(category);
+                var isActiveClass = isActive ? "active" : "";
                 <div class="button-wrap">
-                    <button class="untitld-button @isActiveClass" @onclick="() => this.GameState.ToggleCategory(this.Player, category)">
+                    <button disabled="@(IsMaxCategorySelected && !isActive)" class="untitld-button @isActiveClass" @onclick="() => SelectCategory(category)">
                         @category
                     </button>
 
@@ -27,7 +28,7 @@
 
         <div>
             <br/>
-            <button class="fancy-button" disabled="@(Player.Categories.Count != this.GameState.NumberOfCategoriesPerUser)" @onclick="Play">
+            <button class="fancy-button" disabled="@(!IsMaxCategorySelected)" @onclick="Play">
                 <Arrow/>
                 Confirm Selection
                 <Arrow Flipped/>
@@ -43,6 +44,13 @@
 
     [Parameter]
     public State.Game GameState { get; set; } = default!;
+
+    bool IsMaxCategorySelected => Player.Categories.Count >= this.GameState.NumberOfCategoriesPerUser;
+
+    void SelectCategory(string category)
+    {
+        this.GameState.ToggleCategory(this.Player, category);
+    }
 
     void Play()
     {
