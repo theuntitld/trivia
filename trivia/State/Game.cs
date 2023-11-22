@@ -130,6 +130,9 @@ public class Game
 
             await Task.Delay(1000);
 
+            if (this.RemainingSecondForStage == 0)
+                break;
+
             this.RemainingSecondForStage--;
 
             if (this.RemainingSecondForStage == 0)
@@ -156,23 +159,14 @@ public class Game
         this.StateChanged();
     }
 
-    //public async Task StartGame()
-    //{
-    //    this.GameStarted = true;
-    //    this.Stage = 0;
-    //    this.SecondsSinceGameStart = 0;
+    public void StopGame()
+    {
+        this.RemainingSecondForStage = 0;
+        this.Stage = -1;
+        this.QuestionIsShowing = false;
 
-    //    foreach (var player in Players)
-    //    {
-    //        player.Answers = new Dictionary<int, string>();
-
-    //        player.Score = 0;
-    //    }
-
-    //    this.StateChanged();
-
-    //    await this.StartStageTimer();
-    //}
+        this.StateChanged();
+    }
 
     public void RevealQuestion()
     {

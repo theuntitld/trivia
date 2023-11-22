@@ -20,7 +20,7 @@
         {
             <button @onclick="(() => this.gameState.RevealQuestion())">
                 Show Question @(this.gameState.Stage + 2)
-        </button>
+            </button>
         }
     }
     else
@@ -54,6 +54,13 @@ else
 
     <div>Players Are Answering Question @(this.gameState.Stage + 1)</div>
     <div>Time Left: @this.gameState.RemainingSecondForStage</div>
+}
+
+@if (this.gameState.Stage >= 0 && this.gameState.Stage < this.gameState.Questions.Count)
+{
+    <button @onclick="@(() => this.gameState.StopGame())">
+        Stop Game
+    </button>
 }
 
 @code {
