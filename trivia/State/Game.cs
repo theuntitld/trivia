@@ -12,16 +12,11 @@ public class Game
     public int NumberOfCategoriesPerUser { get; set; } = 3;
     public int SecondsPerStage { get; set; } = 12;
 
-    public int RemainingSecondForStage { get; set; } 
+    public int QuestionsPerGame { get; set; } = 25;
 
-    public List<QuestionCSVModel> Questions { get; set; }
+    public int RemainingSecondForStage { get; set; }
 
-    public Game()
-    {
-        var engine = new FileHelpers.FileHelperEngine<QuestionCSVModel>();
-
-        this.Questions = engine.ReadFile($"State/questions.csv").ToList();
-    }
+    public List<QuestionCSVModel> Questions { get; set; } = new List<QuestionCSVModel> { };
 
     private string? LastAssignedTeam { get; set; }
 
@@ -174,6 +169,11 @@ public class Game
 
         this.CorrectAnswerIsShowing = false;
 
+        if (this.Stage == -1)
+        {
+            this.Questions = this.GetGameQuestions();
+        }
+
         this.Stage++;
 
         this.StateChanged();
@@ -196,5 +196,30 @@ public class Game
             this.Stage++;
 
         this.StateChanged();
+    }
+
+    public List<QuestionCSVModel> GetGameQuestions()
+    {
+        var engine = new FileHelpers.FileHelperEngine<QuestionCSVModel>();
+
+        var allQuestions = engine.ReadFile($"State/questions.csv").ToList();
+
+        var categoryCounts = this.Players
+        .SelectMany(x => x.Categories)
+        .GroupBy(x => x)
+        .ToDictionary(x => x.Key.ToUpper(), x => x.Count());
+
+        Random rng = new Random();
+
+        var filteredOrderedQuestions = allQuestions
+        // .Where(x => categoryCounts.Keys.Contains(x.Category.ToUpper()))
+        .OrderByDescending(x => !categoryCounts.ContainsKey(x.Category.ToUpper()) ? -1 : categoryCounts[x.Category.ToUpper()])
+        // .Take(3 * 3)
+        .Take(this.QuestionsPerGame)
+        .ToList()
+        .OrderBy(x => rng.Next())
+        .ToList();
+
+        return filteredOrderedQuestions;
     }
 }

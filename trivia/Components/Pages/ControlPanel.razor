@@ -10,7 +10,7 @@
 {
     if (!this.gameState.QuestionIsShowing)
     {
-        @if (this.gameState.Stage >= this.gameState.Questions.Count - 1)
+        @if (this.gameState.Stage != -1 && this.gameState.Stage >= this.gameState.Questions.Count - 1)
         {
             <button @onclick="@(() => this.gameState.FinishTheGame())">
                 Finish The Game
