@@ -3,38 +3,60 @@
 
 @if (Player is not null)
 {
-    <section class="play-page @RulesOpenClass waiting-stage @(Player.Page == State.Pages.Play && this.GameState.Stage == -1 ? "show" : "")">
-        <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button>
-        <div class="wait-message">
-            <div class="loading-icon">
-                <LoadingIcon/>
+    <section class="play-page waiting-stage @RulesOpenClass @(IsDarkBG ? "dark-bg" : "") @(Player.Page == State.Pages.Play && this.GameState.Stage == -1 ? "show" : "")">
+
+        <header>
+            <div class="header-content">
+                <div class="player-name" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">
+                    <BackIcon Light="IsDarkBG" />
+                    @Player.Name
+                </div>
+
+                <div class="logo-small"><UntitldIcon Light="IsDarkBG"/></div>
             </div>
-            <h3>
-                The game has<br />
-                not started yet
-            </h3>
-            <div>Please be patient :]</div>
-        </div>
+        </header>
 
 
-        <div class="team">
-            <div>You’re on team</div>
-            <div class="team-name">[ @Player.Team?.ToUpper() ]</div>
-        </div>
+        @* <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.CategoryPicker; this.GameState.StateChanged();}">Back</button> *@
+        
+        <div class="content">
+            <div class="wait-message">
+                <div class="loading-icon">
+                    <LoadingIcon Light="@IsDarkBG"/>
+                </div>
+                <h3>
+                    The game has<br />
+                    not started yet
+                </h3>
+                <div>Please be patient :]</div>
+            </div>
 
-        @* <button class="btn btn-info" @onclick="() => {Player.PreviousPage = State.Pages.Play; Player.Page = State.Pages.Rules; this.GameState.StateChanged();}">Show Rules</button> *@
 
-        <div class="rules" @onclick="ToggleRules">
-            <div class="divider"></div>
-            <RulesIcon Light="@(RulesOpenClass != string.Empty)" />
-            <div class="rules-hint">
-                Maybe read the rules<br />
-                while you wait?
+            <div class="team">
+                <div>You’re on team</div>
+                <div class="team-name">[ @Player.Team?.ToUpper() ]</div>
+            </div>
+
+            @* <button class="btn btn-info" @onclick="() => {Player.PreviousPage = State.Pages.Play; Player.Page = State.Pages.Rules; this.GameState.StateChanged();}">Show Rules</button> *@
+
+            <div class="rules" @onclick="ToggleRules">
+                <div class="divider"></div>
+                <RulesIcon Light="@(RulesOpenClass != string.Empty || IsDarkBG)" />
+                <div class="rules-hint">
+                    Maybe read the rules<br />
+                    while you wait?
+                </div>
             </div>
         </div>
     
     </section>
 }
+
+<style>
+    section.waiting-stage {
+        background-color: @Misc.GetTeam(this.Player?.Team).Color !important;
+    }
+</style>
 
 @code {
 
@@ -45,6 +67,8 @@
     public State.Game GameState { get; set; } = default!;
 
     string RulesOpenClass = "";
+
+    bool IsDarkBG => Misc.GetTeam(this.Player?.Team).IsDark;
 
     void ToggleRules()
     {
