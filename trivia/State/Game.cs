@@ -2,6 +2,7 @@
 
 public class Game
 {
+    public Score WisdomOfTheCrowd { get; set; } = new Score();
     public int Stage { get; set; } = -1;
     public bool QuestionIsShowing { get; set; }
     public bool CorrectAnswerIsShowing { get; set; }
@@ -29,6 +30,17 @@ public class Game
         "PINK",
         "PURPULE",
         "ORANGE",
+    };
+
+    public Dictionary<string, Score> TeamScore { get; set; } = new Dictionary<string, Score>
+    {
+        ["GREEN"] = new Score(),
+        ["RED"] = new Score(),
+        ["BLUE"] = new Score(),
+        ["YELLOW"] = new Score(),
+        ["PINK"] = new Score(),
+        ["PURPULE"] = new Score(),
+        ["ORANGE"] = new Score(),
     };
 
     public List<string> Categories { get; set; } = new List<string>
@@ -130,23 +142,54 @@ public class Game
 
             this.RemainingSecondForStage--;
 
+            foreach (var team in TeamScore.Keys)
+                TeamScore[team] = new Score();
+
+            this.WisdomOfTheCrowd = new Score();
+
             if (this.RemainingSecondForStage == 0)
             {
                 this.CorrectAnswerIsShowing = true;
 
                 foreach (var player in Players)
                 {
-                    var playerScore = 0;
+                    var playerFlatScore = 0;
+                    var playerScoreWithPanelty = 0;
 
                     for (int i = 0; i <= this.Stage; i++)
                     {
-                        if (player.Answers.ContainsKey(i) && player.Answers[i] == this.Questions.ElementAt(i).Answer)
+                        if (player.Answers.ContainsKey(i))
                         {
-                            playerScore++;
+                            //Correct
+                            if (player.Answers[i] == this.Questions.ElementAt(i).Answer)
+                            {
+                                playerFlatScore = playerFlatScore + 123;
+                                playerScoreWithPanelty = playerScoreWithPanelty + 123;
+                            }
+                            //Incorrect
+                            else
+                            {
+                                playerScoreWithPanelty = playerScoreWithPanelty - 63;
+                            }
+                        }
+                        //Skipped
+                        else
+                        {
+                            playerScoreWithPanelty = playerScoreWithPanelty - 18;
                         }
                     }
 
-                    player.Score = playerScore;
+                    player.Score.FlatScore = playerFlatScore;
+                    player.Score.ScoreWithPanelty = playerScoreWithPanelty;
+
+                    if (player.Team is not null)
+                    {
+                        TeamScore[player.Team!].FlatScore += player.Score.FlatScore;
+                        TeamScore[player.Team!].ScoreWithPanelty += player.Score.ScoreWithPanelty;
+                    }
+
+                    this.WisdomOfTheCrowd.FlatScore += player.Score.FlatScore;
+                    this.WisdomOfTheCrowd.ScoreWithPanelty += player.Score.ScoreWithPanelty;
                 }
             }
         }
