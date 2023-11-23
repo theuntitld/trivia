@@ -5,7 +5,7 @@ public class Player
     public string Code { get; set; } = default!;
     public string Name { get; set; } = default!;
     public string? Team { get; set; }
-    public int Score { get; set; }
+    public Score Score { get; set; } = new Score();
     public bool Online { get; set; }
     public List<string> Categories { get; set; } = new List<string>(); // { "SPORT", "GAMING", "DESIGN" };
     public Pages Page { get; set; } = Pages.Rules;
