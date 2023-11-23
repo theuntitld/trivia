@@ -34,71 +34,71 @@
 
 @foreach (var q in FilteredOrderedQuestions)
 {
-    <div>@q.Category</div>
+    <div>@($"{q.Question} - {q.Category}")</div>
 }
 
 @code {
     List<State.QuestionCSVModel> questions = new()
     {
-        new State.QuestionCSVModel { Category = "SPORT" },
-        new State.QuestionCSVModel { Category = "SPORT" },
-        new State.QuestionCSVModel { Category = "SPORT" },
+        new State.QuestionCSVModel { Question = "1", Category = "SPORT" },
+        new State.QuestionCSVModel { Question = "2", Category = "SPORT" },
+        new State.QuestionCSVModel { Question = "3", Category = "SPORT" },
 
-        new State.QuestionCSVModel { Category = "GAMING" },
-        new State.QuestionCSVModel { Category = "GAMING" },
-        new State.QuestionCSVModel { Category = "GAMING" },
+        new State.QuestionCSVModel { Question = "4", Category = "GAMING" },
+        new State.QuestionCSVModel { Question = "5", Category = "GAMING" },
+        new State.QuestionCSVModel { Question = "6", Category = "GAMING" },
 
-        new State.QuestionCSVModel { Category = "DESIGN" },
-        new State.QuestionCSVModel { Category = "DESIGN" },
-        new State.QuestionCSVModel { Category = "DESIGN" },
+        new State.QuestionCSVModel { Question = "7", Category = "DESIGN" },
+        new State.QuestionCSVModel { Question = "8", Category = "DESIGN" },
+        new State.QuestionCSVModel { Question = "9", Category = "DESIGN" },
 
-        new State.QuestionCSVModel { Category = "TECH" },
-        new State.QuestionCSVModel { Category = "TECH" },
-        new State.QuestionCSVModel { Category = "TECH" },
+        new State.QuestionCSVModel { Question = "10", Category = "TECH" },
+        new State.QuestionCSVModel { Question = "11", Category = "TECH" },
+        new State.QuestionCSVModel { Question = "12", Category = "TECH" },
 
-        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
-        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
-        new State.QuestionCSVModel { Category = "GEOGRAPHY" },
+        new State.QuestionCSVModel { Question = "13", Category = "GEOGRAPHY" },
+        new State.QuestionCSVModel { Question = "14", Category = "GEOGRAPHY" },
+        new State.QuestionCSVModel { Question = "15", Category = "GEOGRAPHY" },
 
-        new State.QuestionCSVModel { Category = "HISTORY" },
-        new State.QuestionCSVModel { Category = "HISTORY" },
-        new State.QuestionCSVModel { Category = "HISTORY" },
+        new State.QuestionCSVModel { Question = "16", Category = "HISTORY" },
+        new State.QuestionCSVModel { Question = "17", Category = "HISTORY" },
+        new State.QuestionCSVModel { Question = "18", Category = "HISTORY" },
 
-        new State.QuestionCSVModel { Category = "ART" },
-        new State.QuestionCSVModel { Category = "ART" },
-        new State.QuestionCSVModel { Category = "ART" },
+        new State.QuestionCSVModel { Question = "19", Category = "ART" },
+        new State.QuestionCSVModel { Question = "20", Category = "ART" },
+        new State.QuestionCSVModel { Question = "21", Category = "ART" },
 
-        new State.QuestionCSVModel { Category = "MOVIES" },
-        new State.QuestionCSVModel { Category = "MOVIES" },
-        new State.QuestionCSVModel { Category = "MOVIES" },
+        new State.QuestionCSVModel { Question = "22", Category = "MOVIES" },
+        new State.QuestionCSVModel { Question = "23", Category = "MOVIES" },
+        new State.QuestionCSVModel { Question = "24", Category = "MOVIES" },
 
-        new State.QuestionCSVModel { Category = "CARS" },
-        new State.QuestionCSVModel { Category = "CARS" },
-        new State.QuestionCSVModel { Category = "CARS" },
+        new State.QuestionCSVModel { Question = "25", Category = "CARS" },
+        new State.QuestionCSVModel { Question = "26", Category = "CARS" },
+        new State.QuestionCSVModel { Question = "27", Category = "CARS" },
 
-        new State.QuestionCSVModel { Category = "MUSIC" },
-        new State.QuestionCSVModel { Category = "MUSIC" },
-        new State.QuestionCSVModel { Category = "MUSIC" },
+        new State.QuestionCSVModel { Question = "28", Category = "MUSIC" },
+        new State.QuestionCSVModel { Question = "29", Category = "MUSIC" },
+        new State.QuestionCSVModel { Question = "30", Category = "MUSIC" },
 
-        new State.QuestionCSVModel { Category = "MYTH" },
-        new State.QuestionCSVModel { Category = "MYTH" },
-        new State.QuestionCSVModel { Category = "MYTH" },
+        new State.QuestionCSVModel { Question = "31", Category = "MYTH" },
+        new State.QuestionCSVModel { Question = "32", Category = "MYTH" },
+        new State.QuestionCSVModel { Question = "33", Category = "MYTH" },
 
-        new State.QuestionCSVModel { Category = "TRAVEL" },
-        new State.QuestionCSVModel { Category = "TRAVEL" },
-        new State.QuestionCSVModel { Category = "TRAVEL" },
+        new State.QuestionCSVModel { Question = "34", Category = "TRAVEL" },
+        new State.QuestionCSVModel { Question = "35", Category = "TRAVEL" },
+        new State.QuestionCSVModel { Question = "36", Category = "TRAVEL" },
 
-        new State.QuestionCSVModel { Category = "LANGUAGES" },
-        new State.QuestionCSVModel { Category = "LANGUAGES" },
-        new State.QuestionCSVModel { Category = "LANGUAGES" },
+        new State.QuestionCSVModel { Question = "37", Category = "LANGUAGES" },
+        new State.QuestionCSVModel { Question = "38", Category = "LANGUAGES" },
+        new State.QuestionCSVModel { Question = "39", Category = "LANGUAGES" },
 
-        new State.QuestionCSVModel { Category = "FOOD" },
-        new State.QuestionCSVModel { Category = "FOOD" },
-        new State.QuestionCSVModel { Category = "FOOD" },
+        new State.QuestionCSVModel { Question = "40", Category = "FOOD" },
+        new State.QuestionCSVModel { Question = "41", Category = "FOOD" },
+        new State.QuestionCSVModel { Question = "42", Category = "FOOD" },
 
-        new State.QuestionCSVModel { Category = "SCIENCE" },
-        new State.QuestionCSVModel { Category = "SCIENCE" },
-        new State.QuestionCSVModel { Category = "SCIENCE" },
+        new State.QuestionCSVModel { Question = "43", Category = "SCIENCE" },
+        new State.QuestionCSVModel { Question = "44", Category = "SCIENCE" },
+        new State.QuestionCSVModel { Question = "45", Category = "SCIENCE" },
     };
 
     Dictionary<int, List<State.Player>> states = new()
@@ -136,9 +136,10 @@
         Random rng = new Random();
 
         FilteredOrderedQuestions = this.questions
-        .Where(x => this.CategoryCounts.Keys.Contains(x.Category.ToUpper()))
-        .OrderByDescending(x => this.CategoryCounts[x.Category.ToUpper()])
-        .Take(3 * 3)
+        // .Where(x => this.CategoryCounts.Keys.Contains(x.Category.ToUpper()))
+        .OrderByDescending(x => !this.CategoryCounts.ContainsKey(x.Category.ToUpper()) ? -1 : this.CategoryCounts[x.Category.ToUpper()])
+        // .Take(3 * 3)
+        .Take(25)
         .ToList()
         .OrderBy(x => rng.Next())
         .ToList();
