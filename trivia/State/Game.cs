@@ -7,6 +7,56 @@ public class Game
     public bool QuestionIsShowing { get; set; }
     public bool CorrectAnswerIsShowing { get; set; }
     public List<Player> Players { get; set; } = new List<Player>();
+    //{
+    //    new Player {
+    //        Name = "One",
+    //        Team = "GREEN",
+    //        Code = "1",
+    //        Online = true,
+    //        Categories = new List<string> { "SPORT", "GAMING", "DESIGN" },
+    //        Answers = new Dictionary<int, string> {
+    //            [0] = "B",
+    //            [1] = "A",
+    //            [2] = "A",
+    //            [3] = "A",
+    //            [4] = "A",
+    //        }
+    //        //Score: 615 - 615
+    //    },
+    //    new Player {
+    //        Name = "Two",
+    //        Team = "GREEN",
+    //        Code = "2",
+    //        Online = true,
+    //        Categories = new List<string> { "SPORT", "GAMING", "DESIGN" },
+    //        Answers = new Dictionary<int, string> {
+    //            [0] = "B",
+    //            [1] = "A",
+    //            [2] = "A",
+    //            [3] = "A",
+    //        }
+    //        //Score: 492 - 474
+    //    },
+    //    new Player {
+    //        Name = "Three",
+    //        Team = "RED",
+    //        Code = "3",
+    //        Online = true,
+    //        Categories = new List<string> { "SPORT", "GAMING", "DESIGN" },
+    //        Answers = new Dictionary<int, string> {
+    //            [0] = "B",
+    //            [1] = "A",
+    //            [2] = "A",
+    //            [3] = "B",
+    //        }
+    //        //369 - 288
+    //    },
+
+    //    //Green: 1107 - 1089
+    //    //Red: 369 - 288
+    //    //Crowd: 1,476 - 1,377
+    //};
+
     public EventHandler StateChange { get; set; } = default!;
     public void StateChanged() => StateChange?.Invoke(this, EventArgs.Empty);
 
@@ -202,6 +252,14 @@ public class Game
         this.RemainingSecondForStage = 0;
         this.Stage = -1;
         this.QuestionIsShowing = false;
+
+        foreach (var player in Players)
+            player.Score = new Score();
+
+        foreach (var team in this.TeamScore.Keys)
+            this.TeamScore[team] = new Score();
+
+        this.WisdomOfTheCrowd = new Score();
 
         this.StateChanged();
     }

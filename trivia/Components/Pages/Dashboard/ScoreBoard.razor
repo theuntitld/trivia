@@ -13,9 +13,27 @@
     {
         <div>
             <span>@player.Name</span>
-            <strong>@player.Score</strong>
+            <strong>@player.Score.FlatScore</strong>
+            <strong>@player.Score.ScoreWithPanelty</strong>
         </div>
+        <br/>
     }
+
+    @foreach (var team in this.GameState.TeamScore.Keys)
+    {
+        <div>
+            <span>@team</span>
+            <strong>@this.GameState.TeamScore[team].FlatScore</strong>
+            <strong>@this.GameState.TeamScore[team].ScoreWithPanelty</strong>
+        </div>
+        <br />
+    }
+
+    <div>
+        <span>Crowd:</span>
+        <strong>@this.GameState.WisdomOfTheCrowd.FlatScore</strong>
+        <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong>
+    </div>
 </section>
 
 @code {
