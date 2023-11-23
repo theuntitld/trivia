@@ -2,6 +2,15 @@
 
 public class Game
 {
+    public Game ()
+    {
+        var engine = new FileHelpers.FileHelperEngine<QuestionCSVModel>();
+
+        var allQuestions = engine.ReadFile($"State/questions.csv").ToList();
+
+        Categories = allQuestions.Select(x => x.Category).Distinct().ToList();
+    }
+
     public Score WisdomOfTheCrowd { get; set; } = new Score();
     public int Stage { get; set; } = -1;
     public bool QuestionIsShowing { get; set; }
@@ -92,25 +101,8 @@ public class Game
         ["PURPULE"] = new Score(),
         ["ORANGE"] = new Score(),
     };
-
-    public List<string> Categories { get; set; } = new List<string>
-    {
-        "SPORT",
-        "GAMING",
-        "DESIGN",
-        "TECH",
-        "GEOGRAPHY",
-        "HISTORY",
-        "ART",
-        "MOVIES",
-        "CARS",
-        "MUSIC",
-        "MYTH",
-        "TRAVEL",
-        "LANGUAGES",
-        "FOOD",
-        "SCIENCE",
-    };
+   
+    public List<string> Categories;
 
     public void AddPlayer(Player player)
     {

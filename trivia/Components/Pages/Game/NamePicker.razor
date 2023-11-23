@@ -2,20 +2,29 @@
 
 @if (Player is not null)
 {
-    <section class="play-page name-stage @(Player.Page == State.Pages.NamePicker ? "show" : "")">
+    <section class="play-page dark-bg name-stage @(Player.Page == State.Pages.NamePicker ? "show" : "")">
 
-        <h1>
-            Welcome to<br />
-            untitld Trivia
-        </h1>
+        <header>
+            <div class="header-content">
+                <div class="player-name"><trivia.Icons.UntitldFullIcon Light/> Trivia</div>
+            </div>
+        </header>
 
-        <div class="name-picker">
-            <label for="name-picker">Choose your display name</label>
-            <input id="name-picker" @oninput="NameChangeHandler" placeholder="e.g. Ahmed" />
-            <small class="hint @(this.Player.Name?.Length >= 3 ? "show" : "")">What a great name</small>
+        <div class="content">
+
+            <h1>
+                Welcome to<br />
+                untitld Trivia
+            </h1>
+
+            <div class="name-picker">
+                <label for="name-picker">Choose your display name</label>
+                <input id="name-picker" @oninput="NameChangeHandler" placeholder="e.g. Ahmed" />
+                <small class="hint @(this.Player.Name?.Length >= 3 ? "show" : "")">What a great name</small>
+            </div>
+
+            <button class="untitld-button" @onclick="Save" disabled="@(this.Player.Name == null || this.Player.Name.Length < 2)">Submit</button>
         </div>
-
-        <button class="untitld-button" @onclick="Save" disabled="@(this.Player.Name == null || this.Player.Name.Length < 2)">Submit</button>
     </section>
 }
 

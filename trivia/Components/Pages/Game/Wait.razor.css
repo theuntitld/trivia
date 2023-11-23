@@ -1,6 +1,5 @@
 ﻿.waiting-stage {
     background-color: var(--primary-color);
-    /* background-color: #DE1919; */
     font-size: 18px;
     display: flex;
     flex-direction: column;
@@ -8,8 +7,17 @@
     text-align: center;
 }
 
-    .waiting-stage.light {
+    .waiting-stage.dark-bg {
         color: #fff;
+    }
+
+    .waiting-stage header {
+        width: 90%;
+        border-color: #000;
+    }
+
+    .waiting-stage.dark-bg header {
+        border-color: #fff;
     }
 
 .wait-message {
@@ -22,7 +30,6 @@
     transition-duration: var(--fade-timing);
     transition-timing-function: ease;
 }
-
 
 .rules-open .wait-message {
     flex-grow: unset;
@@ -97,12 +104,15 @@ h3 {
     margin: 0 auto 40px;
 }
 
+.dark-bg:not(.rules-open) .divider {
+    background-color: #fff;
+}
+
 .rules-hint {
     margin-top: 8px;
 }
 
-
-@@keyframes rotate {
+@keyframes rotate {
     from {
         transform: rotate(0);
     }

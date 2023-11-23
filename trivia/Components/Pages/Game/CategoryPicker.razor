@@ -3,36 +3,48 @@
 
 @if (Player is not null)
 {
-    <section class="play-page category-stage @(Player.Page == State.Pages.CategoryPicker ? "show" : "")">
-        <button class="btn btn-warning" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Back</button>
+    <section class="play-page dark-bg category-stage @(Player.Page == State.Pages.CategoryPicker ? "show" : "")">
 
-        <h3>
-            Please Select<br />
-            Three Categories
-        </h3>
-
-        <div class="category-list">
-            @foreach (var category in this.GameState.Categories)
-            {
-                var isActive = this.Player.Categories.Contains(category);
-                var isActiveClass = isActive ? "active" : "";
-                <div class="button-wrap">
-                    <button disabled="@(IsMaxCategorySelected && !isActive)" class="untitld-button @isActiveClass" @onclick="() => SelectCategory(category)">
-                        @category
-                    </button>
-
-                    <span class="counter @isActiveClass">@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</span>
+        <header>
+            <div class="header-content">
+                <div class="player-name back-button" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">
+                    <BackIcon Color="#CDFE00" />
+                    @Player.Name
                 </div>
-            }
-        </div>
 
-        <div>
-            <br/>
-            <button class="fancy-button" disabled="@(!IsMaxCategorySelected)" @onclick="Play">
-                <Arrow/>
-                Confirm Selection
-                <Arrow Flipped/>
-            </button>
+                <div class="logo-small"><UntitldIcon Color="#CDFE00"/></div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <h3>
+                Please Select<br />
+                Three Categories
+            </h3>
+
+            <div class="category-list">
+                @foreach (var category in this.GameState.Categories)
+                {
+                    var isActive = this.Player.Categories.Contains(category);
+                    var isActiveClass = isActive ? "active" : "";
+                    <div class="button-wrap">
+                        <button disabled="@(IsMaxCategorySelected && !isActive)" class="untitld-button @isActiveClass" @onclick="() => SelectCategory(category)">
+                            @category
+                        </button>
+
+                        <span class="counter @isActiveClass">@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</span>
+                    </div>
+                }
+            </div>
+
+            <div class="confirm-wrapper">
+                <button class="fancy-button" disabled="@(!IsMaxCategorySelected)" @onclick="Play">
+                    <ArrowIcon/>
+                    Confirm Selection
+                    <ArrowIcon Flipped/>
+                </button>
+            </div>
         </div>
     </section>
 }

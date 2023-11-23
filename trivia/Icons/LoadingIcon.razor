@@ -1,12 +1,19 @@
 ﻿
 
-<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M26 4.33331V13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M26 39V47.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M10.6816 10.6816L16.8133 16.8133" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M35.1866 35.1866L41.3183 41.3183" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M4.33337 26H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M39 26H47.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M10.6816 41.3183L16.8133 35.1866" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M35.1866 16.8133L41.3183 10.6816" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<svg width="52" height="52" viewBox="0 0 52 52" stroke="@Color" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M26 4.33331V13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M26 39V47.6667" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M10.6816 10.6816L16.8133 16.8133" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M35.1866 35.1866L41.3183 41.3183" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M4.33337 26H13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M39 26H47.6667" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M10.6816 41.3183L16.8133 35.1866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M35.1866 16.8133L41.3183 10.6816" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 </svg>
+
+@code {
+    [Parameter]
+    public bool Light { get; set; }
+
+    string Color => Light ? "#fff" : "#000";
+}
