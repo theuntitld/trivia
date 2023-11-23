@@ -1,0 +1,119 @@
+﻿.question-stage {
+    background-color: #000;
+    color: #fff;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    /* flex-grow: 1; */
+}
+
+    .scores h4 {
+        font-size: 16px;
+    }
+
+    .scores span {
+        color: #808285;
+    }
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.untitld-button {
+    text-align: left;
+    text-transform: none;
+    padding: 14px 16px;
+    font-weight: 700;
+    position: relative;
+}
+
+    .untitld-button.wrong {
+        color: #DE1919;
+        border-color: #DE1919;
+    }
+
+    .untitld-button:disabled:not(.active, .correct) {
+        color: #808285;
+        border-color: #808285;
+        background-color: transparent;
+    }
+
+    .untitld-button.active.correct {
+        background: var(--primary-color);
+        color: #000;
+        animation: blinkingButton;
+        animation: 0.3s 5 alternate linear blinkingButton;
+    }
+
+@keyframes blinkingButton {
+    from {
+        background: #000;
+        color: var(--primary-color);
+    }
+
+    to {
+        background: var(--primary-color);
+        color: #000;
+    }
+}
+
+._progress {
+    width: 100%;
+    border-bottom: 1px solid var(--primary-color);
+    margin-bottom: 12px;
+}
+
+    ._progress > div {
+        content: "";
+        background-color: var(--primary-color);
+        height: 10px;
+        transition-property: width;
+        transition-duration: 1s;
+        transition-timing-function: linear;
+    }
+
+.question-text {
+    width: 88%;
+    text-transform: capitalize;
+    font-size: 18px;
+    line-height: 23px;
+}
+
+.q-detail {
+    color: var(--primary-color);
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+    .q-detail::before {
+        content: "";
+        height: 1px;
+        width: 42px;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: -15px;
+        left: 0;
+    }
+
+.button-info {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    padding: 5px;
+    justify-content: space-between;
+}

@@ -2,23 +2,12 @@
 
 @if (Player is not null)
 {
-    <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.Stage > -1 && this.GameState.Stage < this.GameState.Questions.Count ? "show" : "")">
-        <h3>Answer Questions</h3>
+    <section class="play-page question-stage @(Player.Page == State.Pages.Play && this.GameState.Stage > -1 && this.GameState.Stage < this.GameState.Questions.Count ? "show" : "")">
 
-        <h4>Team: @Player.Team</h4>
-
-        <h4>Score: @Player.Score</h4>
-
-        <h4>Stage: @(this.GameState.Stage + 1) / @this.GameState.Questions.Count</h4>
-
-        @if (!this.GameState.QuestionIsShowing)
-        {
-            <h4>Time Left: @this.GameState.RemainingSecondForStage</h4>
-
-            <div style="width: @((double) this.GameState.RemainingSecondForStage / (double) this.GameState.SecondsPerStage * (double) 100)%"
-                 class="progress">
-            </div>
-        }
+        <div class="scores">
+            <h4><span>My Score</span> @Player.Score</h4>
+            <h4><span>Team</span> @Player.Team</h4>
+        </div>
 
         <div style="position:relative;">
             @for (var i = 0; i < this.GameState.Questions.Count; i++)
@@ -26,35 +15,57 @@
                 var question = this.GameState.Questions[i];
 
                 <div class="question @(this.GameState.Stage == i ? "show" : "")">
-                    <h4>@question.Question</h4>
+
+                    <div class="q-detail">
+                        <span>@question.Category</span>
+                        <span>Q@((GameState.Stage + 1).ToString("00"))</span>
+                    </div>
+
+                    <h4 class="question-text">@question.Question</h4>
                     
                     @if (!this.GameState.QuestionIsShowing)
                     {
+                        this.Player.Answers.TryGetValue(this.GameState.Stage, out string? playerAnswer);
+                        var stageEnded = this.GameState.CorrectAnswerIsShowing;
+
+                        <div class="_progress">
+                            <div style="width: @((double) this.GameState.RemainingSecondForStage / (double) (this.GameState.SecondsPerStage) * (double) 100)%"></div>
+                        </div>
+
                         <div class="answers">
-                            <button class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "A" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "A" ? "btn-success" : "btn-default")"
-                                    disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "A"))">
-                                @question.A
-                            </button>
 
-                            <button class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "B" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "B" ? "btn-success" : "btn-default")"
-                                    disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "B"))">
-                                @question.B
-                            </button>
+                            @foreach (var answer in new List<string> { "A", "B", "C", "D" })
+                            {
+                                var isActive = playerAnswer == answer;
+                                var isCorrect = stageEnded && question.Answer == answer;
+                                var isWrong = isActive && !isCorrect && stageEnded;
+                                @* var isCorrectSelected = isCorrect && isActive; *@
 
-                            <button class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "C" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "C" ? "btn-success" : "btn-default")"
-                                    disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "C"))">
-                                @question.C
-                            </button>
+                                var isActiveClass = isActive ? "active" : string.Empty;
+                                var isCorrectClass = isCorrect ? "correct" : string.Empty;
+                                var isWrongClass = isWrong ? "wrong" : string.Empty;
+                                @* var isCorrectSelectedClass = isCorrectSelected ? "wrong" : string.Empty; *@
 
-                            <button class="btn @(this.GameState.CorrectAnswerIsShowing ? "" : (this.Player.Answers.ContainsKey(this.GameState.Stage) && this.Player.Answers[this.GameState.Stage] == "D" ? "btn-primary" : "btn-info")) @(this.GameState.CorrectAnswerIsShowing && question.Answer == "D" ? "btn-success" : "btn-default")"
-                                    disabled="@this.GameState.CorrectAnswerIsShowing" @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, "D"))">
-                                @question.D
-                            </button>
+                                <button class="untitld-button type-two @isActiveClass @isCorrectClass @isWrongClass"
+                                        disabled="@this.GameState.CorrectAnswerIsShowing"
+                                        @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, answer))">
+                                    @answer - @question.GetType().GetProperty(answer)?.GetValue(question)
+
+                                    @if (stageEnded)
+                                    {
+                                        <div class="button-info">
+                                            <div>@GameState.Players.Where(x => x.Answers.ContainsKey(this.GameState.Stage) && x.Answers[this.GameState.Stage] == answer).Count()</div>
+                                            <div></div>
+                                        </div>
+                                    }
+                                </button>
+                            }
                         </div>
                     }
                 </div>
             }
         </div>
+
     </section>
 }
 
@@ -65,4 +76,9 @@
 
     [Parameter]
     public State.Game GameState { get; set; } = default!;
+
+    string Test(bool condition, string className)
+    {
+        return condition ? className : string.Empty;
+    }
 }
