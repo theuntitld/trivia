@@ -10,6 +10,10 @@ header {
     color: var(--primary-color);
 }
 
+.content {
+    padding-top: 22px;
+}
+
 .scores {
     display: flex;
     justify-content: space-between;
@@ -86,40 +90,57 @@ header {
     margin-bottom: 12px;
 }
 
-    ._progress > div {
-        content: "";
-        background-color: var(--primary-color);
-        height: 10px;
-        transition-property: width;
-        transition-duration: 1s;
-        transition-timing-function: linear;
-    }
+._progress > div {
+    content: "";
+    background-color: var(--primary-color);
+    height: 10px;
+    transition-property: width;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    opacity: 0;
+}
+
+.show.small:not(.ended) ._progress > div {
+    opacity: 1;
+}
 
 .question-text {
     width: 88%;
     text-transform: capitalize;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 23px;
+    line-height: normal;
+    transition: font-size var(--fade-timing) ease;
+    margin-bottom: 34px;
+}
+
+.show.small .question-text {
+    font-size: 18px;
 }
 
 .q-detail {
     color: var(--primary-color);
     display: flex;
     gap: 16px;
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 10px;
     position: relative;
+    transition: font-size var(--fade-timing) ease;
 }
 
-    .q-detail::before {
-        content: "";
-        height: 1px;
-        width: 42px;
-        background-color: var(--primary-color);
-        position: absolute;
-        top: -15px;
-        left: 0;
-    }
+.q-detail::before {
+    content: "";
+    height: 1px;
+    width: 42px;
+    background-color: var(--primary-color);
+    position: absolute;
+    top: -15px;
+    left: 0;
+}
+
+.show.small .q-detail {
+    font-size: 14px;
+}
 
 .button-info {
     position: absolute;
@@ -131,4 +152,45 @@ header {
     font-size: 12px;
     padding: 5px;
     justify-content: space-between;
+}
+
+.question-wrapper {
+    position: relative;
+    flex-grow: 1;
+}
+
+.question {
+    top: unset;
+    bottom: 48px;
+    height: auto;
+}
+
+.answers .untitld-button {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+    .answers .untitld-button:nth-child(2) {
+        transition-delay: 0.2s;
+    }
+
+    .answers .untitld-button:nth-child(3) {
+        transition-delay: 0.4s;
+    }
+
+    .answers .untitld-button:nth-child(4) {
+        transition-delay: 0.6s;
+    }
+
+    .answers .untitld-button.show {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0);
+        z-index: 1;
+    }
+
+.question {
+    transition-property: transform, opacity;
 }

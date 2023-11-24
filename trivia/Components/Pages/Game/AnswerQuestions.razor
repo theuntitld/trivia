@@ -21,19 +21,25 @@
                 @{
                     var teamColor = Misc.GetTeam(Player.Team).Color;
                 }
-                <h4><span>My Score</span> @Player.Score</h4>
+                <h4><span>My Score</span> @Player.Score.FlatScore</h4>
                 <h4>
                     <span>Team</span>
                     <span class="team-score-color" style="background-color: @(teamColor ?? "");"></span>
+                    <span>@(string.IsNullOrWhiteSpace(Player.Team) ? "" : this.GameState.TeamScore[Player.Team].FlatScore)</span>
                 </h4>
             </div>
 
-            <div style="position:relative;">
+            <div class="question-wrapper">
                 @for (var i = 0; i < this.GameState.Questions.Count; i++)
                 {
                     var question = this.GameState.Questions[i];
+                    this.Player.Answers.TryGetValue(this.GameState.Stage, out string? playerAnswer);
+                    var stageEnded = this.GameState.CorrectAnswerIsShowing;
+                    var showStageClass = this.GameState.Stage == i ? "show" : string.Empty;
+                    var showingAnswersClass = this.GameState.QuestionIsShowing ? string.Empty : "small";
+                    var stageHasEndedClass = stageEnded ? "ended" : string.Empty;
 
-                    <div class="question @(this.GameState.Stage == i ? "show" : "")">
+                    <div class="question @showStageClass @showingAnswersClass @stageHasEndedClass">
 
                         <div class="q-detail">
                             <span>@question.Category</span>
@@ -42,13 +48,14 @@
 
                         <h4 class="question-text">@question.Question</h4>
 
-                        @if (!this.GameState.QuestionIsShowing)
-                        {
-                            this.Player.Answers.TryGetValue(this.GameState.Stage, out string? playerAnswer);
-                            var stageEnded = this.GameState.CorrectAnswerIsShowing;
-
+                        <div class="answers-wrapper ">
+                            @{
+                                var width = this.GameState.Stage == i && !this.GameState.QuestionIsShowing
+                                    ? ((double)this.GameState.RemainingSecondForStage - 1.0) / (double)this.GameState.SecondsPerStage * 100.0
+                                    : 100.0;
+                            }
                             <div class="_progress">
-                                <div style="width: @((double) this.GameState.RemainingSecondForStage / (double) (this.GameState.SecondsPerStage) * (double) 100)%"></div>
+                                <div style="width: @width%"></div>
                             </div>
 
                             <div class="answers">
@@ -58,14 +65,12 @@
                                     var isActive = playerAnswer == answer;
                                     var isCorrect = stageEnded && question.Answer == answer;
                                     var isWrong = isActive && !isCorrect && stageEnded;
-                                    @* var isCorrectSelected = isCorrect && isActive; *@
 
                                     var isActiveClass = isActive ? "active" : string.Empty;
                                     var isCorrectClass = isCorrect ? "correct" : string.Empty;
                                     var isWrongClass = isWrong ? "wrong" : string.Empty;
-                                    @* var isCorrectSelectedClass = isCorrectSelected ? "wrong" : string.Empty; *@
 
-                                    <button class="untitld-button type-two @isActiveClass @isCorrectClass @isWrongClass"
+                                    <button class="untitld-button type-two @(this.GameState.QuestionIsShowing ? "" : "show") @isActiveClass @isCorrectClass @isWrongClass"
                                             disabled="@this.GameState.CorrectAnswerIsShowing"
                                             @onclick="@(() => this.GameState.AnswerQuestion(this.Player, this.GameState.Stage, answer))">
                                         @answer - @question.GetType().GetProperty(answer)?.GetValue(question)
@@ -80,7 +85,7 @@
                                     </button>
                                 }
                             </div>
-                        }
+                        </div>
                     </div>
                 }
             </div>
