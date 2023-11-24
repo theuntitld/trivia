@@ -1,6 +1,6 @@
 ﻿
 
-<svg width="52" height="52" viewBox="0 0 52 52" stroke="@Color" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="@Width" height="@Height" viewBox="0 0 52 52" stroke="@Color" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M26 4.33331V13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M26 39V47.6667" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M10.6816 10.6816L16.8133 16.8133" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -15,5 +15,14 @@
     [Parameter]
     public bool Light { get; set; }
 
-    string Color => Light ? "#fff" : "#000";
+    [Parameter]
+    public bool Green { get; set; }
+
+    [Parameter]
+    public int Width { get; set; } = 52;
+
+    [Parameter]
+    public int Height { get; set; } = 52;
+
+    string Color => Light ? "#fff" : Green ? "#CDFE00" : "#000";
 }

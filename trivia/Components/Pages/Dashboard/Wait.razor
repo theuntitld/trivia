@@ -1,19 +1,52 @@
-﻿
-<section class="play-page @(this.GameState.Stage == -1 ? "show" : "")">
-    <h3>Dashboard (Wait)</h3>
+﻿@using trivia.Icons
 
-    <div>
-        <div>
-            @(this.GameState.Players.Where(x=> !string.IsNullOrWhiteSpace(x.Name)).Count()) Players Joined
+<section class="play-page @(this.GameState.Stage == -1 ? "show" : "")">
+    <div class="header">
+        <div class="logo">
+            <UntitldFullIcon Width="160" Height="80" Light /> TRIVIA
         </div>
 
-        @foreach (var category in this.GameState.Categories)
-        {
-            <button>
-                @category
-                <sup>@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</sup>
-            </button>
-        }
+        <div class="wait-message">
+            <span class="loading-icon">
+                 <LoadingIcon Width="40" Height="40" Green />
+            </span>
+             The game has not started yet, Please be patient :]
+        </div>
+    </div>
+
+    <div class="body">
+        
+        @* <div>
+            @(this.GameState.Players.Where(x=> !string.IsNullOrWhiteSpace(x.Name)).Count()) Players Joined
+        </div> *@
+
+        <div class="body-col">
+            <div>
+                 Trivia Categories
+            </div>
+
+            <div class="category-list">
+                @foreach (var category in this.GameState.Categories)
+                {
+                    <div class="category-box">
+                        <span class="name">@category</span>
+                        <span class="count">@(this.GameState.Players.Where(x => x.Categories.Contains(category)).Count())</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        <div class="body-col scan-col">
+            <div>
+                <img style="max-width:250px" class="scan-box" src="qr-theuntitld-com.svg" />
+            </div>
+
+            <ArrowIcon Rotate="270" Width="30" Height="40" />
+
+            <div>Scan to Join</div>
+        </div>
+        
     </div>
 </section>
 
