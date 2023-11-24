@@ -52,10 +52,13 @@ section header {
         align-items: center;
     }
 
-    .header-content .player-name {
-        font-size: 22px;
-        font-weight: 600;
-    }
+.header-content .player-name {
+    font-size: 22px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
     section .content {
         display: flex;

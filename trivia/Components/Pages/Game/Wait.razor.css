@@ -89,6 +89,8 @@ h3 {
     transition-property: background-color, color, flex-grow;
     transition-duration: var(--fade-timing);
     transition-timing-function: ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .rules-open .rules {
@@ -110,7 +112,57 @@ h3 {
 
 .rules-hint {
     margin-top: 8px;
+    transition-property: opacity;
+    transition-duration: var(--fade-timing);
+    transition-timing-function: ease;
 }
+
+.rules-open .rules-hint {
+    height: 0;
+    opacity: 0;
+}
+
+.close-button {
+    width: 24px;
+    height: 24px;
+    background-image: url(/images/close-icon.svg);
+    background-size: cover;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: var(--fade-timing);
+    transition-timing-function: ease;
+    position: absolute;
+    top: 22px;
+    right: 22px;
+}
+
+.rules-open .close-button {
+    opacity: 1;
+}
+
+.rules-details {
+    max-width: 300px;
+    margin: auto;
+    text-align: left;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: var(--fade-timing);
+    transition-timing-function: ease;
+    height: 0;
+}
+
+.rules-open .rules-details {
+    opacity: 1;
+}
+
+.rules-details p {
+    margin-top: 8px;
+    margin-bottom: 28px;
+}
+
+    .rules-details li:not(:last-child) {
+        margin-bottom: 20px;
+    }
 
 @keyframes rotate {
     from {

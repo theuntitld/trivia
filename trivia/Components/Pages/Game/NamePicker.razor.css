@@ -9,8 +9,6 @@ section.name-stage {
 .player-name {
     color: var(--primary-color);
     text-transform: uppercase;
-    display: flex;
-    gap: 10px;
 }
 
 section.name-stage .content {
