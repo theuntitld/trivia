@@ -1,11 +1,17 @@
 
         
-<svg style="@(Flipped ? "transform: scaleX(-1);" : "")" width="26" height="16" viewBox="0 0 26 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg style="transform: rotate(@(Rotate)deg)" width="@Width" height="@Height" viewBox="0 0 26 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0.999999 8L24 8" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M18 1L25 8L18 15" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 
 @code {
     [Parameter]
-    public bool Flipped { get; set; } = false;
+    public int Width { get; set; } = 26;
+
+    [Parameter]
+    public int Height { get; set; } = 16;
+
+    [Parameter]
+    public int Rotate { get; set; } = 0;
 }
