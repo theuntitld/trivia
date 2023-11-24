@@ -152,6 +152,7 @@ header {
     font-size: 12px;
     padding: 5px;
     justify-content: space-between;
+    text-align: center;
 }
 
 .question-wrapper {
@@ -193,4 +194,20 @@ header {
 
 .question {
     transition-property: transform, opacity;
+}
+
+.button-icon-feedback {
+    height: 7px;
+    width: 10px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.wrong .button-icon-feedback {
+    background-image: url(/images/x-icon.svg);
+}
+
+.correct.active .button-icon-feedback {
+    background-image: url(/images/checkmark.svg);
 }
