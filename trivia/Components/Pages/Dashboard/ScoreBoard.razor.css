@@ -127,3 +127,30 @@
 .score-bar div {
     height: 100%;
 }
+
+.crowd-score {
+    margin-top: 20px;
+}
+
+.crowd-score h3 {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.crowd-score .score-bar {
+    border-color: var(--primary-color);
+    height: 45px;
+    color: #000;
+    font-size: 24px;
+    font-weight: 700;
+    
+}
+
+.crowd-score .score-bar div {
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+}

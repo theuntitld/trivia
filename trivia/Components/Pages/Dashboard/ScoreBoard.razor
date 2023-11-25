@@ -8,7 +8,7 @@
         </div>
 
         <div class="wait-message">
-
+             Question @((GameState.Stage + 1).ToString("00"))
         </div>
     </div>
 
@@ -18,7 +18,7 @@
             <h3>Scoreboard</h3>
 
             <div class="scores">
-                @for (var i = 1; i <= 30; i++)
+                @* @for (var i = 1; i <= 30; i++)
                 {
                     <div class="score">
                         <span>#@i.ToString("00")</span>
@@ -26,12 +26,17 @@
                         <span>1300</span>
                     </div>
                 }
-
-                @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online))
+ *@
+                 @{
+                    var players = this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online);
+                }
+                @for (var i = 0; i < players.Count(); i++)
                 {
-                    <div>
+                    var player = players.ElementAt(i);
+                    <div class="score">
+                        <span>#@((i + 1).ToString("00"))</span>
                         <span>@player.Name</span>
-                        <strong>@player.Score.FlatScore</strong>
+                        <span>@player.Score.FlatScore</span>
                         @* <strong>@player.Score.ScoreWithPanelty</strong> *@
                     </div>
                 }
@@ -66,13 +71,16 @@
         </div> *@
 
 
-        <div>
-            <span>Crowd:</span>
-            <strong>@this.GameState.WisdomOfTheCrowd.FlatScore</strong>
-            <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong>
-        </div>
+        
     </div>
 
+    <div class="crowd-score">
+        <h3>Wisdon of the crowd</h3>
+        <div class="score-bar">
+            <div style="width: @(78)%">@this.GameState.WisdomOfTheCrowd.FlatScore</div>
+        </div>
+        @* <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong> *@
+    </div>
     
 </section>
 
