@@ -3,22 +3,36 @@
 @if (Player is not null)
 {
     <section class="play-page @(Player.Page == State.Pages.Rules ? "show" : "")">
+
+        <header>
+            <div class="header-content">
+                <div class="player-name"><trivia.Icons.UntitldFullIcon Light /> Trivia</div>
+             </div>
+         </header>
+
         @if (this.Player.PreviousPage is not null)
         {
             <button class="btn btn-warning" @onclick="() => {Player.Page = this.Player.PreviousPage.Value; this.GameState.StateChanged();}">Back</button>
         }
-        
-        <ul>
-            <li>Rule 1</li>
-            <li>Rule 2</li>
-            <li>Rule 3</li>
-            <li>Rule 4</li>
-        </ul>
 
-        @if (this.Player.PreviousPage is null)
-        {
-            <button class="btn btn-success" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Ok</button>
-        }
+        <div class="content">
+            <div class="rules-details">
+                <p>The rules of the game are very simple just follow these:</p>
+
+                <ul>
+                    <li>You have 50 seconds to answer each question.</li>
+                    <li>Choose a right answer out of 4 possibilities.</li>
+                    <li>For every right answer you get 15 points.</li>
+                    <li>The person with the highest score wins.</li>
+                    <li>Each person is assigned a random team, help your team win.</li>
+                </ul>
+            </div>
+
+            @if (this.Player.PreviousPage is null)
+            {
+                <button class="untitld-button" @onclick="() => {Player.Page = State.Pages.NamePicker; this.GameState.StateChanged();}">Ok</button>
+            }
+        </div>
     </section>
 }
 

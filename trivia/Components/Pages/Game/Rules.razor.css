@@ -1,0 +1,20 @@
+﻿section {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+}
+
+.player-name {
+    color: var(--primary-color);
+    text-transform: uppercase;
+}
+
+.content {
+    color: #fff;
+    margin: 0 auto;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
