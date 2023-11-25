@@ -152,5 +152,5 @@
     background-color: var(--primary-color);
     display: flex;
     align-items: center;
-    padding-left: 8px;
+    text-indent: 8px;
 }

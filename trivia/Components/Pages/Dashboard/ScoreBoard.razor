@@ -37,7 +37,6 @@
                         <span>#@((i + 1).ToString("00"))</span>
                         <span>@player.Name</span>
                         <span>@player.Score.FlatScore</span>
-                        @* <strong>@player.Score.ScoreWithPanelty</strong> *@
                     </div>
                 }
             </div>
@@ -50,16 +49,20 @@
                 @foreach (var team in this.GameState.TeamScore.Keys)
                 {
                     var color = Misc.GetTeam(team).Color;
-                    var scoreWidth = 60;
+
+                    var teamPlayersCount = (double)this.GameState.Players.Where(x => x.Team == team).Count();
+                    var maxScore = teamPlayersCount * this.GameState.Questions.Count * 123.0;
+                    var score = (double)this.GameState.TeamScore[team].FlatScore;
+                    var scorePercent = teamPlayersCount < 1 ? 0 : score / maxScore * 100;
+
                     <div class="team-score" style="color: @color;">
                         <div>
                             <span>@team</span>
-                            <span>@this.GameState.TeamScore[team].FlatScore</span>
+                            <span>@((Int32)scorePercent)%</span>
                         </div>
                         <div class="score-bar" style="border-color: @color;">
-                            <div style="background-color: @color;width: @scoreWidth%;"></div>
+                            <div style="background-color: @color;width: @scorePercent%;"></div>
                         </div>
-                        @* <strong>@this.GameState.TeamScore[team].FlatScore</strong> *@
                     </div>
                 }
             </div>
@@ -77,9 +80,14 @@
     <div class="crowd-score">
         <h3>Wisdon of the crowd</h3>
         <div class="score-bar">
-            <div style="width: @(78)%">@this.GameState.WisdomOfTheCrowd.FlatScore</div>
+            @{
+                var playersCount = (double)this.GameState.Players.Count();
+                var maxCrowdScore = playersCount * this.GameState.Questions.Count  * 123.0;
+                var crowdScore = (double)this.GameState.WisdomOfTheCrowd.FlatScore;
+                var crowdScorePercent = playersCount < 1 ? 0 : crowdScore / maxCrowdScore * 100;
+            }
+            <div style="width: @(crowdScorePercent)%">@((Int32)crowdScorePercent)%</div>
         </div>
-        @* <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong> *@
     </div>
     
 </section>
