@@ -3,7 +3,22 @@
 @if (Player is not null)
 {
     <section class="play-page @(Player.Page == State.Pages.Play && this.GameState.Stage == this.GameState.Questions.Count ? "show" : "")">
-        <h3>Game Finished</h3>
+        <header>
+            <div class="header-content">
+                <div class="player-name"><trivia.Icons.UntitldFullIcon Light/> Trivia</div>
+            </div>
+        </header>
+
+        <div class="content">
+
+            <div class="icon"></div>
+             <p>Thank you for playing</p>
+             <h2>
+                 The game has<br />
+                 Concluded
+             </h2>
+             <p>Refer to the big screen for final scores and standings</p>
+        </div>
     </section>
 }
 
