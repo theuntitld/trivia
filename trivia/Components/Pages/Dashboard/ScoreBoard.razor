@@ -1,39 +1,79 @@
-﻿
+﻿@using trivia.Icons
+
 <section class="play-page @(GameState.Stage > -1 ? "show" : "")">
-    <h3>Dashboard (Score Board)</h3>
 
-   
-    @* Game Left: 
-    <div style="width:@(
-        GameState.SecondsSinceGameStart == 0 ? 100 : 
-        (1.0 - ((double) GameState.SecondsSinceGameStart / (double) (GameState.Questions.Count * GameState.SecondsPerStage))) * 100)%" class="progress">
-    </div> *@
-
-    @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online))
-    {
-        <div>
-            <span>@player.Name</span>
-            <strong>@player.Score.FlatScore</strong>
-            <strong>@player.Score.ScoreWithPanelty</strong>
+    <div class="header">
+        <div class="logo">
+            <UntitldFullIcon Width="160" Height="80" Light /> TRIVIA
         </div>
-        <br/>
-    }
 
-    @foreach (var team in this.GameState.TeamScore.Keys)
-    {
-        <div>
-            <span>@team</span>
-            <strong>@this.GameState.TeamScore[team].FlatScore</strong>
-            <strong>@this.GameState.TeamScore[team].ScoreWithPanelty</strong>
+        <div class="wait-message">
+
         </div>
-        <br />
-    }
-
-    <div>
-        <span>Crowd:</span>
-        <strong>@this.GameState.WisdomOfTheCrowd.FlatScore</strong>
-        <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong>
     </div>
+
+    <div class="body">
+
+        <div class="player-scores">
+            <h3>Scoreboard</h3>
+
+            <div class="scores">
+                @for (var i = 1; i <= 30; i++)
+                {
+                    <div class="score">
+                        <span>#@i.ToString("00")</span>
+                        <span>Player</span>
+                        <span>1300</span>
+                    </div>
+                }
+
+                @foreach (var player in this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online))
+                {
+                    <div>
+                        <span>@player.Name</span>
+                        <strong>@player.Score.FlatScore</strong>
+                        @* <strong>@player.Score.ScoreWithPanelty</strong> *@
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="team-scores">
+            <h3>Team Score</h3>
+
+            <div class="scores">
+                @foreach (var team in this.GameState.TeamScore.Keys)
+                {
+                    var color = Misc.GetTeam(team).Color;
+                    var scoreWidth = 60;
+                    <div class="team-score" style="color: @color;">
+                        <div>
+                            <span>@team</span>
+                            <span>@this.GameState.TeamScore[team].FlatScore</span>
+                        </div>
+                        <div class="score-bar" style="border-color: @color;">
+                            <div style="background-color: @color;width: @scoreWidth%;"></div>
+                        </div>
+                        @* <strong>@this.GameState.TeamScore[team].FlatScore</strong> *@
+                    </div>
+                }
+            </div>
+        </div>
+         @* Game Left:
+        <div style="width:@(
+        GameState.SecondsSinceGameStart == 0 ? 100 :
+        (1.0 - ((double) GameState.SecondsSinceGameStart / (double) (GameState.Questions.Count * GameState.SecondsPerStage))) * 100)%" class="progress">
+        </div> *@
+
+
+        <div>
+            <span>Crowd:</span>
+            <strong>@this.GameState.WisdomOfTheCrowd.FlatScore</strong>
+            <strong>@this.GameState.WisdomOfTheCrowd.ScoreWithPanelty</strong>
+        </div>
+    </div>
+
+    
 </section>
 
 @code {
