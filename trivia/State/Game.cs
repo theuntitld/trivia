@@ -246,7 +246,10 @@ public class Game
         this.QuestionIsShowing = false;
 
         foreach (var player in Players)
+        {
             player.Score = new Score();
+            player.Answers = new Dictionary<int, string>();
+        }
 
         foreach (var team in this.TeamScore.Keys)
             this.TeamScore[team] = new Score();
