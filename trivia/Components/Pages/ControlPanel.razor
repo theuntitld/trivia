@@ -29,40 +29,42 @@
 
 <h3 style="text-align: center; padding:20px 0px;">Control Panel</h3>
 
-<div style="border-top:1px double #e1e1e1; padding-top:5px; border-bottom:1px double #e1e1e1; height:57px; margin-bottom:50px;">
-    @if (this.gameState.RemainingSecondForStage == 0 && !this.gameState.QuestionIsShowing)
-    {
-        if (this.gameState.Stage != -1 && this.gameState.Stage >= this.gameState.Questions.Count - 1)
+@if (loggedIn)
+{
+    <div style="border-top:1px double #e1e1e1; padding-top:5px; border-bottom:1px double #e1e1e1; height:57px; margin-bottom:50px;">
+        @if (this.gameState.RemainingSecondForStage == 0 && !this.gameState.QuestionIsShowing)
         {
-            <button @onclick="@(() => this.gameState.FinishTheGame())">
-                Finish The Game
+            if (this.gameState.Stage != -1 && this.gameState.Stage >= this.gameState.Questions.Count - 1)
+            {
+                <button @onclick="@(() => this.gameState.FinishTheGame())">
+                    Finish The Game
+                </button>
+            }
+            else
+            {
+                <button @onclick="(() => this.gameState.RevealQuestion())">
+                    Show Question @(this.gameState.Stage + 2)
+                </button>
+            }
+        }
+
+        @if (this.gameState.RemainingSecondForStage == 0 && this.gameState.QuestionIsShowing)
+        {
+            <button @onclick="(async () => await this.gameState.StartStage())">
+                Start Stage @(this.gameState.Stage + 1)
             </button>
         }
-        else
+
+        @if (this.gameState.RemainingSecondForStage > 0)
         {
-            <button @onclick="(() => this.gameState.RevealQuestion())">
-                Show Question @(this.gameState.Stage + 2)
+            <button class="wait-button">
+                Wait @(this.gameState.RemainingSecondForStage)
             </button>
         }
-    }
 
-    @if (this.gameState.RemainingSecondForStage == 0 && this.gameState.QuestionIsShowing)
-    {
-        <button @onclick="(async () => await this.gameState.StartStage())">
-            Start Stage @(this.gameState.Stage + 1)
-        </button>
-    }
-
-    @if (this.gameState.RemainingSecondForStage > 0)
-    {
-        <button class="wait-button">
-            Wait @(this.gameState.RemainingSecondForStage)
-        </button>
-    }
-
-    @if (this.gameState.Stage >= 0)
-    {
-        <button class="stop-button" @onclick="@(() => { 
+        @if (this.gameState.Stage >= 0)
+        {
+            <button class="stop-button" @onclick="@(() => {
             if(this.stopGamePresses == 4) {
                 this.gameState.StopGame();
                 this.stopGamePresses = 0;
@@ -71,68 +73,89 @@
                 this.stopGamePresses++;
             }
         })" style="float:right;">
-            @if(this.stopGamePresses > 0)
+                @if (this.stopGamePresses > 0)
+                {
+                    <span>Stop Game (@(5 - this.stopGamePresses))</span>
+                }
+                else
+                {
+                    <span>Stop Game</span>
+                }
+            </button>
+        }
+    </div>
+
+    <div style="text-align:center; margin-bottom:50px;">
+        <h3 style="font-weight: bold;">Category</h3>
+        <div style="font-size:18px;">
+            @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
             {
-                <span>Stop Game (@(5 - this.stopGamePresses))</span>
+                <span>@this.gameState.Questions[this.gameState.Stage].Category</span>
             }
             else
             {
-                <span>Stop Game</span>
+                <span>&nbsp;</span>
             }
-        </button>
-    }
-</div>
-
-
-<div style="text-align:center; margin-bottom:50px;">
-    <h3 style="font-weight: bold;">Category</h3>
-    <div style="font-size:18px;">
-        @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
-        {
-            <span>@this.gameState.Questions[this.gameState.Stage].Category</span>
-        }
-        else
-        {
-            <span>&nbsp;</span>
-        }
+        </div>
     </div>
-</div>
 
-<div style="text-align:center; margin-bottom:50px;">
-    <h3 style="font-weight: bold;">Stage</h3>
-    <div style="font-size: 18px;">
-        @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
-        {
-            <span>@(this.gameState.Stage + 1) / @this.gameState.Questions.Count</span>
-        }
-        else
-        {
-            <span>&nbsp;</span>
-        }
+    <div style="text-align:center; margin-bottom:50px;">
+        <h3 style="font-weight: bold;">Stage</h3>
+        <div style="font-size: 18px;">
+            @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
+            {
+                <span>@(this.gameState.Stage + 1) / @this.gameState.Questions.Count</span>
+            }
+            else
+            {
+                <span>&nbsp;</span>
+            }
+        </div>
     </div>
-</div>
 
-<div style="text-align:center;">
-    <h3 style="font-weight: bold;">Question</h3>
-    <div style="font-size: 18px;">
-        @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
-        {
-            <span>@this.gameState.Questions[this.gameState.Stage].Question</span>
-        }
-        else
-        {
-            <span>&nbsp;</span>
-        }
+    <div style="text-align:center;">
+        <h3 style="font-weight: bold;">Question</h3>
+        <div style="font-size: 18px;">
+            @if (this.gameState.QuestionIsShowing || this.gameState.RemainingSecondForStage > 0)
+            {
+                <span>@this.gameState.Questions[this.gameState.Stage].Question</span>
+            }
+            else
+            {
+                <span>&nbsp;</span>
+            }
+        </div>
     </div>
-</div>
+}
 
+else
+{
+    <input @bind-value="passKey" placeholder="Pass Key" />
+    <button @onclick="Login">
+        Login
+    </button>
+}
 
 @code {
     private int stopGamePresses = 0;
 
+    bool loggedIn = false;
+
+    string passKey = "";
+
     protected override void OnInitialized()
     {
         this.gameState.StateChange += GameState_StateChange;
+    }
+
+    private void Login()
+    {
+        var cpPassKey = System.IO.File.ReadAllText("cp-pass");
+
+        if(cpPassKey == passKey)
+        {
+            this.loggedIn = true;   
+        }
     }
 
     private void GameState_StateChange(object sender, EventArgs e)
