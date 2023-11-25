@@ -28,7 +28,7 @@
                 }
  *@
                  @{
-                    var players = this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online);
+                    var players = this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online).OrderByDescending(x => x.Score.FlatScore);
                 }
                 @for (var i = 0; i < players.Count(); i++)
                 {

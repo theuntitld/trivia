@@ -70,7 +70,7 @@ public class Game
     public void StateChanged() => StateChange?.Invoke(this, EventArgs.Empty);
 
     public int NumberOfCategoriesPerUser { get; set; } = 3;
-    public int SecondsPerStage { get; set; } = 12;
+    public int SecondsPerStage { get; set; } = 20;
 
     public int QuestionsPerGame { get; set; } = 25;
 
