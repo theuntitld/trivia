@@ -28,7 +28,7 @@
                 }
  *@
                  @{
-                    var players = this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online).OrderByDescending(x => x.Score.FlatScore);
+                    var players = this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online).Where(x=> x.Answers.Any()).OrderByDescending(x => x.Score.FlatScore);
                 }
                 @for (var i = 0; i < players.Count(); i++)
                 {
@@ -50,7 +50,7 @@
                 {
                     var color = Misc.GetTeam(team).Color;
 
-                    var teamPlayersCount = (double)this.GameState.Players.Where(x => x.Team == team).Count();
+                    var teamPlayersCount = (double)this.GameState.Players.Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Online).Where(x => x.Team == team && x.Answers.Any()).Count();
                     var maxScore = teamPlayersCount * this.GameState.Questions.Count * 123.0;
                     var score = (double)this.GameState.TeamScore[team].FlatScore;
                     var scorePercent = teamPlayersCount < 1 ? 0 : score / maxScore * 100;
