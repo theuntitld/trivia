@@ -61,7 +61,7 @@
                             <span>@((Int32)scorePercent)%</span>
                         </div>
                         <div class="score-bar" style="border-color: @color;">
-                            <div style="background-color: @color;width: @scorePercent%;"></div>
+                            <div style="transition:0.4s; background-color: @color;width: @scorePercent%;"></div>
                         </div>
                     </div>
                 }
@@ -86,7 +86,7 @@
                 var crowdScore = (double)this.GameState.WisdomOfTheCrowd.FlatScore;
                 var crowdScorePercent = playersCount < 1 ? 0 : crowdScore / maxCrowdScore * 100;
             }
-            <div style="width: @(crowdScorePercent)%">@((Int32)crowdScorePercent)%</div>
+            <div style="transition:0.4s; width: @(crowdScorePercent)%">@((Int32)crowdScorePercent)%</div>
         </div>
     </div>
     
