@@ -18,7 +18,7 @@ header {
     display: flex;
     justify-content: space-between;
     text-transform: uppercase;
-    /* flex-grow: 1; */
+    flex-wrap: wrap;
 }
 
     .scores h4 {
@@ -210,4 +210,65 @@ header {
 
 .correct.active .button-icon-feedback {
     background-image: url(/images/checkmark.svg);
+}
+
+
+@media only screen and (max-height: 670px) {
+
+    .content {
+        padding-top: 12px;
+    }
+
+    .question {
+        bottom: 18px;
+    }
+
+    .q-detail {
+        font-size: 16px;
+    }
+
+    .question-text {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .untitld-button {
+        padding: 12px 16px;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    section header {
+        height: 80px;
+    }
+
+    section .header-content {
+        bottom: 12px;
+    }
+
+    .question {
+        bottom: 10px;
+    }
+
+    .q-detail {
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .question-text {
+        margin-bottom: 6px;
+        font-size: 18px;
+    }
+
+    ._progress {
+        margin-bottom: 6px;
+    }
+
+    .answers {
+        gap: 5px;
+    }
+
+    .untitld-button {
+        padding: 8px 12px;
+    }
 }

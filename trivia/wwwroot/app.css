@@ -50,6 +50,7 @@ section header {
         justify-content: space-between;
         width: 100%;
         align-items: center;
+        flex-wrap: wrap;
     }
 
 .header-content .player-name {
@@ -58,6 +59,7 @@ section header {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
     section .content {

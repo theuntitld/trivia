@@ -17,8 +17,13 @@ h3 {
 .category-list {
     display: grid;
     grid-template-columns: auto auto;
-    gap: 15px 13px;
+    grid-template-columns: calc(50% - 6px) calc(50% - 6px);
+    gap: 15px 12px;
 }
+
+    .category-list .untitld-button {
+        padding-inline: 0;
+    }
 
 .button-wrap {
     position: relative;
@@ -68,4 +73,73 @@ h3 {
     justify-content: flex-end;
     padding-bottom: 52px;
     width: 100%;
+}
+
+@media only screen and (max-width: 380px), only screen and (max-height: 680px) {
+    .content {
+        padding: 0 14px;
+    }
+
+    .category-list .untitld-button {
+        font-size: 16px;
+    }
+
+    .counter {
+        right: 2px;
+        top: 2px;
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 268px), only screen and (max-height: 660px) {
+    .content {
+        padding: 0 6px;
+    }
+
+    .category-list .untitld-button {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+}
+
+@media only screen and (max-height: 710px) {
+    h3 {
+        margin-top: 18px;
+    }
+
+    .confirm-wrapper {
+        padding-bottom: 20px;
+    }
+
+    .fancy-button {
+        padding: 10px 0;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    section header {
+        height: 80px;
+    }
+
+    section .header-content {
+        bottom: 12px;
+    }
+
+    h3 {
+        margin: 10px 0;
+        font-size: 14px;
+    }
+
+    .category-list {
+        gap: 6px 12px;
+    }
+
+    .category-list .untitld-button {
+        padding: 6px 0;
+    }
+
+    .fancy-button {
+        font-size: 14px;
+        padding: 6px;
+    }
 }
