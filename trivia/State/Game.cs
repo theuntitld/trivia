@@ -184,13 +184,13 @@ public class Game
 
             this.RemainingSecondForStage--;
 
-            foreach (var team in TeamScore.Keys)
-                TeamScore[team] = new Score();
-
-            this.WisdomOfTheCrowd = new Score();
-
             if (this.RemainingSecondForStage == 0)
             {
+                foreach (var team in TeamScore.Keys)
+                    TeamScore[team] = new Score();
+
+                this.WisdomOfTheCrowd = new Score();
+
                 this.CorrectAnswerIsShowing = true;
 
                 foreach (var player in Players)
